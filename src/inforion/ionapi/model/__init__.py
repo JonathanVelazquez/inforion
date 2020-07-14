@@ -39,7 +39,15 @@ MaxChunk = 100
 
 
 def execute(
-    url, headers, program, methode, dataframe, outputfile=None, start=0, end=None, on_progress=None
+    url,
+    headers,
+    program,
+    methode,
+    dataframe,
+    outputfile=None,
+    start=0,
+    end=None,
+    on_progress=None,
 ):
 
     df = dataframe
@@ -71,8 +79,8 @@ def execute(
 
             bar.update(index)
 
-            if(on_progress):
-                on_progress(total_rows, index+1)
+            if on_progress:
+                on_progress(total_rows, index + 1)
 
             row = row.to_json()
             row = json.loads(row)

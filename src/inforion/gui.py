@@ -50,7 +50,7 @@ def show_main():
                 window[event].update(values[event][:-1])
 
         if event == "Ok":
-            
+
             url = values[0]
             ionfile = values[1]
             program = values[2]
@@ -59,13 +59,20 @@ def show_main():
             outputfile = values[5]
             start = int(values["-INS-"])
             end = int(values["-INE-"])
-            
 
             dataframe = pd.read_excel(inputfile, dtype=str)
 
             infor.main_load(
-                            url, ionfile, program, method, dataframe, outputfile, start, end, on_progress
-                        )
+                url,
+                ionfile,
+                program,
+                method,
+                dataframe,
+                outputfile,
+                start,
+                end,
+                on_progress,
+            )
 
     window.close()
 
