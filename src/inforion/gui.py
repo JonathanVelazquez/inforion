@@ -1,9 +1,8 @@
-import PySimpleGUI as sg
+import inforion as infor
 import pandas as pd
+import PySimpleGUI as sg
 
 # from inforion import main_load
-
-import inforion as infor
 
 sg.theme("Dark Blue 3")
 appFont = ("Helvetica", 16)
