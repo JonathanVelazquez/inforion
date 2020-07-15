@@ -13,10 +13,10 @@ sg.set_options(font=appFont)
 def show_main():
 
     METER_REASON_CANCELLED = "cancelled"
-    #METER_REASON_CLOSED = "closed"
-    #METER_REASON_REACHED_MAX = "finished"
-    #METER_OK = True
-    #METER_STOPPED = False
+    # METER_REASON_CLOSED = "closed"
+    # METER_REASON_REACHED_MAX = "finished"
+    # METER_OK = True
+    # METER_STOPPED = False
 
     layout = [
         [sg.Text("URL")],
