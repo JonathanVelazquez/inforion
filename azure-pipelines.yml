@@ -71,6 +71,7 @@ stages:
           - pwsh: |
               refreshenv
               $env:pathext += ';.py'
+              python setup.py develop    
               python -m pytest --junitxml=test.xml -o junit_family=xunit1 --cov=inforion --cov-report=xml --cov-report=html
               #pytest tests --doctest-modules --junitxml=junit/test-results.xml --cov=. --cov-report=xml --cov-report=html
             displayName: "Test"
