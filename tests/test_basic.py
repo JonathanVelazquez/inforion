@@ -10,8 +10,8 @@ from _pytest._io.saferepr import saferepr
 #import inforion.helper.filehandling as filehandling
 #import inforion.ionapi.model.inforlogin as inforlogin
 
-from inforion.helper.filehandling import filehandling
-from inforion.ionapi.model.inforlogin import inforlogin
+from inforion.helper.filehandling import *
+from inforion.ionapi.model.inforlogin import *
 
 from inforion import *
 
