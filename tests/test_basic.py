@@ -3,12 +3,13 @@ import logging
 import os
 import unittest
 import urllib.request as urllib
-
-import inforion.helper.filehandling as filehandling
-import inforion.ionapi.model.inforlogin as inforlogin
 import pandas as pd
 import pytest
 from _pytest._io.saferepr import saferepr
+
+import inforion.helper.filehandling as filehandling
+import inforion.ionapi.model.inforlogin as inforlogin
+
 from inforion import *
 
 # Import the test framework (this is a hypothetical module)
