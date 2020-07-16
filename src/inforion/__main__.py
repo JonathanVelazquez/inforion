@@ -158,7 +158,7 @@ def extract(program, outputfile):
     "--outputfile", "-o", help="File as Output File - Data are saved here for the load"
 )
 def transform(mappingfile, mainsheet, inputfile, outputfile):
-    inputdata = pd.read_excel(inputfile)
+    inputdata = pd.read_excel(inputfile, dtype=str)
     return infor.main_transformation(mappingfile, mainsheet, inputdata, outputfile)
 
 
@@ -169,9 +169,9 @@ def transform(mappingfile, mainsheet, inputfile, outputfile):
 @click.option("--mergecol", "-c", help="Please define the column criteria for merge")
 @click.option("--mergetype", "-t", help="Please define the merging type")
 def merge(mergesheet1, mergesheet2, mergeoutput, mergecol, mergetype="outer"):
-    print(mergetype)
-    sheet1 = pd.read_excel(mergesheet1)
-    sheet2 = pd.read_excel(mergesheet2)
+
+    sheet1 = pd.read_excel(mergesheet1, dtype=str)
+    sheet2 = pd.read_excel(mergesheet2, dtype=str)
     return infor.main_merge(sheet1, sheet2, mergeoutput, mergecol, mergetype)
 
 
