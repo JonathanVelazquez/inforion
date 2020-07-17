@@ -212,7 +212,7 @@ def create(ionfile, name, schema_type, schema, properties):
     )
 
     if response.status_code == 200:
-        logger.info("Data catalog schema {} was created.".format(name))
+        click.echo("Data catalog schema {} was created.".format(name))
     else:
         logger.error(response.content)
 
@@ -226,7 +226,7 @@ def delete(ionfile, name):
     response = delete_datacatalog_object(name)
 
     if response.status_code == 200:
-        logger.info("Data catalog schema {} was deleted.".format(name))
+        click.echo("Data catalog schema {} was deleted.".format(name))
     else:
         logger.error(response.content)
 
@@ -251,7 +251,7 @@ def upload(ionfile, schema, logical_id, file):
     response = post_messaging_v2_multipart_message(parameter_request, message_payload)
 
     if response.status_code == 201:
-        logger.info("Document uploaded successfully.")
+        click.echo("Document uploaded successfully.")
     else:
         logger.error(response.content)
 
