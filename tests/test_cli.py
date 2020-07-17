@@ -32,22 +32,19 @@ def test_catalog_delete():
         "data/catalog_properties.json".format(schema_name),
     )
     assert not result.exception
-    assert "Data catalog schema {} was created.".format(
-        schema_name) in result.output
+    assert "Data catalog schema {} was created.".format(schema_name) in result.output
 
     runner2 = CliRunner()
     result2 = runner2.invoke(delete, args="--name {}".format(schema_name))
     assert not result2.exception
-    assert "Data catalog schema {} was deleted.".format(
-        schema_name) in result2.output
+    assert "Data catalog schema {} was deleted.".format(schema_name) in result2.output
 
 
 def test_datalake_upload():
     runner = CliRunner()
     result = runner.invoke(
         upload,
-        args=
-        "--ionfile credentials/credentials.ionapi --schema CSVSchema2 --logical_id "
+        args="--ionfile credentials/credentials.ionapi --schema CSVSchema2 --logical_id "
         "lid://infor.ims.mongooseims --file data/sample.csv",
     )
     assert not result.exception
