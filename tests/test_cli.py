@@ -2,11 +2,8 @@ import uuid
 
 import pytest
 from click.testing import CliRunner
-from inforion.__main__ import create
-from inforion.__main__ import datalake_get
-from inforion.__main__ import datalake_list
-from inforion.__main__ import delete
-from inforion.__main__ import upload
+from inforion.__main__ import (create, datalake_get, datalake_list, delete,
+                               upload)
 
 
 def test_catalog_create():
