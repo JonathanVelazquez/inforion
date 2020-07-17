@@ -138,5 +138,5 @@ def main_merge(
 
     if mergesheet2.empty:
         return "Error: Second merge sheet frame is empty"
-    
+
     return merge_files(mergesheet1, mergesheet2, mergeoutput, mergecol, mergetype)

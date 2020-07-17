@@ -8,6 +8,7 @@ import inforion.ionapi.model.inforlogin as inforlogin
 from inforion.ionapi.controller import *
 from inforion.ionapi.model import *
 from inforion.logger.logger import get_logger
+
 # from io import BytesIO
 # import gzip
 
@@ -22,6 +23,7 @@ import inforion.ionapi.model.inforlogin as inforlogin
 # import inforion.ionapi.basic as inforlogin
 
 logger = get_logger("main", True)
+
 
 class TimeoutHTTPAdapter(HTTPAdapter):
     def __init__(self, *args, **kwargs):
@@ -70,7 +72,6 @@ def sendresults(url, _headers, data, timeout=65, stream=False):
     http.mount("https://", adapter)
     http.mount("http://", adapter)
 
-
     if datetime.now() > inforlogin._GLOBAL_session_expire:
 
         headers = inforlogin.reconnect()
@@ -91,7 +92,7 @@ def sendresults(url, _headers, data, timeout=65, stream=False):
                 stream=stream,
             )
             logger.debug("Sending request: " + curlify.to_curl(response.request))
-            #logger.debug("Response received: " + response.content)
+            # logger.debug("Response received: " + response.content)
             if response.status_code == 200:
                 try:
                     r = response.json()
