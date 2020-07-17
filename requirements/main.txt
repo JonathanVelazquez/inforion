@@ -17,7 +17,6 @@ dotnetcore2==2.1.14
 et-xmlfile==1.0.1
 idna==2.9
 imagesize==1.2.0
--e git+https://github.com/dajor/inforion@7a2d4a3d9ace856ed29238183f530a171380fc70#egg=inforion
 jdcal==1.4.1
 Jinja2==2.11.2
 keyring==21.2.1
