@@ -13,7 +13,6 @@ from inforion.datalake.datalake import get_v1_payloads_list
 from inforion.datalake.datalake import get_v1_payloads_stream_by_id
 from inforion.excelexport import *
 from inforion.helper.filehandling import *
-from inforion.ionapi.controller import *
 from inforion.ionapi.model import *
 from inforion.ionapi.model import inforlogin
 from inforion.logger.logger import get_logger
