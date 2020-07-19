@@ -19,8 +19,7 @@ def test_catalog_create():
     result = runner.invoke(
         create,
         args="--ionfile {} --name CSVSchema2 --schema_type DSV --schema {} "
-        "--properties {}".format(__credentials_file, __schema_file,
-                                 __properties_file),
+        "--properties {}".format(__credentials_file, __schema_file, __properties_file),
     )
     assert not result.exception
     assert "Data catalog schema CSVSchema2 was created." in result.output
@@ -37,22 +36,19 @@ def test_catalog_delete():
         "data/catalog_properties.json".format(schema_name),
     )
     assert not result.exception
-    assert "Data catalog schema {} was created.".format(
-        schema_name) in result.output
+    assert "Data catalog schema {} was created.".format(schema_name) in result.output
 
     runner2 = CliRunner()
     result2 = runner2.invoke(delete, args="--name {}".format(schema_name))
     assert not result2.exception
-    assert "Data catalog schema {} was deleted.".format(
-        schema_name) in result2.output
+    assert "Data catalog schema {} was deleted.".format(schema_name) in result2.output
 
 
 def test_datalake_upload():
     runner = CliRunner()
     result = runner.invoke(
         upload,
-        args=
-        "--ionfile {} --schema CSVSchema2 --logical_id lid://infor.ims.mongooseims "
+        args="--ionfile {} --schema CSVSchema2 --logical_id lid://infor.ims.mongooseims "
         "--file {}".format(__credentials_file, __data_file),
     )
     assert not result.exception
@@ -63,8 +59,9 @@ def test_datalake_list():
     runner = CliRunner()
     result = runner.invoke(
         datalake_list,
-        args="--ionfile {} --list_filter \"dl_document_name eq 'CSVSchema2'\"".
-        format(__credentials_file),
+        args="--ionfile {} --list_filter \"dl_document_name eq 'CSVSchema2'\"".format(
+            __credentials_file
+        ),
     )
     assert not result.exception
     assert "numFound" in result.output
@@ -75,7 +72,8 @@ def test_datalake_get():
     result = runner.invoke(
         datalake_get,
         args="--ionfile {} -id 1-7e476691-b17c-3e8d-8f0c-ea13222f56ef".format(
-            __credentials_file),
+            __credentials_file
+        ),
     )
     assert not result.exception
     assert "ID,FIRST_NAME,LAST_NAME,COUNTRY" in result.output
