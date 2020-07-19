@@ -2,8 +2,11 @@ import uuid
 
 import pytest
 from click.testing import CliRunner
-from inforion.__main__ import (create, datalake_get, datalake_list, delete,
-                               upload)
+from inforion.__main__ import create
+from inforion.__main__ import datalake_get
+from inforion.__main__ import datalake_list
+from inforion.__main__ import delete
+from inforion.__main__ import upload
 
 __credentials_file = "credentials/credentials.ionapi"
 __data_file = "data/sample.csv"
