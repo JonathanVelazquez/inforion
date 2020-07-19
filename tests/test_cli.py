@@ -9,7 +9,6 @@ from inforion.__main__ import datalake_list
 from inforion.__main__ import delete
 from inforion.__main__ import upload
 
-
 __credentials_file = "credentials/credentials.ionapi"
 __data_file = "data/sample.csv"
 __schema_file = "data/catalog_schema.json"

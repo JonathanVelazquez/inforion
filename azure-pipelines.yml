@@ -1,12 +1,11 @@
 trigger:
   branches:
     include:
-    - master
-    - releases/*
+      - master
+      - releases/*
   tags:
     include:
       - v*
-  
 
 stages:
   - stage: "Test"
@@ -26,9 +25,9 @@ stages:
         steps:
           - task: DownloadSecureFile@1
             name: FellowKeyionapi
-            displayName: 'Download ION certificate'
+            displayName: "Download ION certificate"
             inputs:
-              secureFile: 'FellowKey.ionapi'
+              secureFile: "FellowKey.ionapi"
           - task: DownloadSecureFile@1
             inputs:
               secureFile: datalake_test.csv
@@ -64,7 +63,7 @@ stages:
               dir $(Build.SourcesDirectory)
               dir $(Build.SourcesDirectory)\credentials
               dir $(Build.SourcesDirectory)\data
-              
+
           - task: UsePythonVersion@0
             inputs:
               versionSpec: "$(python.version)"
@@ -79,7 +78,7 @@ stages:
           - pwsh: |
               refreshenv
               $env:pathext += ';.py'
-              python setup.py develop    
+              python setup.py develop
               python -m pytest --junitxml=test.xml -o junit_family=xunit1 --cov=inforion --cov-report=xml --cov-report=html
               #pytest tests --doctest-modules --junitxml=junit/test-results.xml --cov=. --cov-report=xml --cov-report=html
             displayName: "Test"
@@ -91,8 +90,8 @@ stages:
           - task: PublishCodeCoverageResults@1
             inputs:
               codeCoverageTool: Cobertura
-              summaryFileLocation: '$(System.DefaultWorkingDirectory)/**/coverage.xml'
-              reportDirectory: '$(System.DefaultWorkingDirectory)/**/htmlcov'
+              summaryFileLocation: "$(System.DefaultWorkingDirectory)/**/coverage.xml"
+              reportDirectory: "$(System.DefaultWorkingDirectory)/**/htmlcov"
       - job: "Ubuntu_1804"
         pool:
           vmImage: "ubuntu-18.04"
@@ -108,9 +107,9 @@ stages:
         steps:
           - task: DownloadSecureFile@1
             name: FellowKeyionapi
-            displayName: 'Download ION certificate'
+            displayName: "Download ION certificate"
             inputs:
-              secureFile: 'FellowKey.ionapi'
+              secureFile: "FellowKey.ionapi"
           - task: DownloadSecureFile@1
             name: Datalaketest
             inputs:
@@ -118,7 +117,7 @@ stages:
           - task: DownloadSecureFile@1
             name: Credentialsionapi
             inputs:
-              secureFile: credentials.ionapi              
+              secureFile: credentials.ionapi
           - task: DownloadSecureFile@1
             name: Sample
             inputs:
@@ -169,11 +168,11 @@ stages:
           - bash: |
               sudo apt-get update
               sudo apt-get install -y --no-install-recommends \
-                python3-software-properties 
+                python3-software-properties
             displayName: "Install system packages"
           - bash: |
               curl https://bootstrap.pypa.io/get-pip.py | python3
-              python -m pip install -r requirements/test.txt 
+              python -m pip install -r requirements/test.txt
               python -m pip install setuptools_git_version
               python -m pip install --upgrade pip wheel
               python -m pip install setuptools-git-version
@@ -182,7 +181,7 @@ stages:
               python setup.py sdist bdist_wheel egg_info
               python setup.py egg_info .
               cp -r src/inforion.egg-info .
-              python setup.py sdist bdist_wheel 
+              python setup.py sdist bdist_wheel
             displayName: "Install Python packages"
           - bash: |
               # -n auto is slower on Linux and breaks on Python 3.8
@@ -194,40 +193,40 @@ stages:
               testRunTitle: "$(Agent.OS) - $(Build.DefinitionName) - Python $(python.version)"
             condition: succeededOrFailed()
       #- job: "Ubuntu_1604"
-        #pool:
-          #vmImage: "ubuntu-16.04"
-        #strategy:
-          #matrix:
-            #Python36:
-              #python.version: "3.6"
-        #steps:
-          #- task: UsePythonVersion@0
-            #inputs:
-              #versionSpec: "$(python.version)"
-          #- bash: |
-              #sudo apt-get update
-              #sudo apt-get install -y --no-install-recommends \
-              #  software-properties-common
-              #sudo add-apt-repository -y ppa:alex-p/tesseract-ocr
-              #sudo apt-get update
-              #sudo apt-get install -y --no-install-recommends \
-            #displayName: "Install system packages"
-          #- bash: |
-              #curl https://bootstrap.pypa.io/get-pip.py | python3
-              #pip3 install -r requirements/main.txt -r requirements/test.txt .
-            #displayName: "Install Python packages"
-          #- bash: |
-              #tesseract --version
-            #displayName: "Record versions"
-          #- bash: |
-              # -n auto is slower on Linux and breaks on Python 3.8
-              #pytest -n0 --junitxml=test.xml --cov=ocrmypdf --cov-report=xml
-            #displayName: "Test"
-          #- task: PublishTestResults@2
-            #inputs:
-              #testResultsFiles: "test.xml"
-              #testRunTitle: "$(Agent.OS) - $(Build.DefinitionName) - Python $(python.version)"
-            #condition: succeededOrFailed()
+      #pool:
+      #vmImage: "ubuntu-16.04"
+      #strategy:
+      #matrix:
+      #Python36:
+      #python.version: "3.6"
+      #steps:
+      #- task: UsePythonVersion@0
+      #inputs:
+      #versionSpec: "$(python.version)"
+      #- bash: |
+      #sudo apt-get update
+      #sudo apt-get install -y --no-install-recommends \
+      #  software-properties-common
+      #sudo add-apt-repository -y ppa:alex-p/tesseract-ocr
+      #sudo apt-get update
+      #sudo apt-get install -y --no-install-recommends \
+      #displayName: "Install system packages"
+      #- bash: |
+      #curl https://bootstrap.pypa.io/get-pip.py | python3
+      #pip3 install -r requirements/main.txt -r requirements/test.txt .
+      #displayName: "Install Python packages"
+      #- bash: |
+      #tesseract --version
+      #displayName: "Record versions"
+      #- bash: |
+      # -n auto is slower on Linux and breaks on Python 3.8
+      #pytest -n0 --junitxml=test.xml --cov=ocrmypdf --cov-report=xml
+      #displayName: "Test"
+      #- task: PublishTestResults@2
+      #inputs:
+      #testResultsFiles: "test.xml"
+      #testRunTitle: "$(Agent.OS) - $(Build.DefinitionName) - Python $(python.version)"
+      #condition: succeededOrFailed()
 
   - stage: "Artifacts"
     variables:
@@ -237,7 +236,7 @@ stages:
       - name: RTD
         value: $[variables.TOKEN_RTD]
       - name: MyRunNumber
-        value: '1$(Date:yyyyMMdd).$(Build.BuildNumber)'
+        value: "1$(Date:yyyyMMdd).$(Build.BuildNumber)"
     jobs:
       - job: "sdist_wheel"
         pool:
@@ -251,8 +250,8 @@ stages:
               python -m pip install setuptools-git-version
               python -m pip install twine
               python -m pip install --upgrade twine
-              python -m pip install -r requirements/main.txt 
-              python -m pip install -r requirements/test.txt 
+              python -m pip install -r requirements/main.txt
+              python -m pip install -r requirements/test.txt
               python -m pip install setuptools_git_version
               python -m pip install --upgrade pip wheel
               python -m pip install setuptools-git-version
@@ -262,7 +261,7 @@ stages:
               python setup.py egg_info
               python setup.py egg_info -e .
               cat <<FILE >inforion.egg-info/PKG-INFO
-              Metadata-Version: 2.1 
+              Metadata-Version: 2.1
               Name: inforion
               Version: $(MyRunNumber)
               Summary: Infor ION Package for Python
@@ -271,19 +270,19 @@ stages:
               Author-email: daniel.jordan@feellow-consulting.de
               License: UNKNOWN
               Description:
-              # PiPy Version 
+              # PiPy Version
               [![PyPI version](https://badge.fury.io/py/inforion.svg)](https://badge.fury.io/py/inforion)
-        
+
               # Current Build Status
-        
+
               [![Build Status](https://dev.azure.com/InforOS/InforION/_apis/build/status/dajor.inforion?branchName=master)](https://dev.azure.com/InforOS/InforION/_build/latest?definitionId=2&branchName=master)
-        
-        
-        
+
+
+
               This is a simple example package. You can use
               [Github-flavored Markdown](https://guides.github.com/features/mastering-markdown/)
                 to write your content.
-        
+
               Keywords: Infor,InforION,Datalake,LN,M3
               Platform: UNKNOWN
               Classifier: Programming Language :: Python :: 3
@@ -323,5 +322,3 @@ stages:
           - script: |
               curl -X POST -d "token=$(TOKEN_RTD)" https://readthedocs.org/api/v2/webhook/inforion/124964/
             displayName: "Trigger ReadTheDocs"
-            
-            
