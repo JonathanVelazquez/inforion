@@ -77,8 +77,8 @@ stages:
             displayName: "Install system packages"
           - bash: |
               curl https://bootstrap.pypa.io/get-pip.py | python3
-              python -m pip install -r requirements/test.txt 
-              python -m pip install -r requirements/main.txt 
+              python -m pip install -r requirements/test.txt
+              python -m pip install -r requirements/main.txt
               python -m pip install setuptools_git_version
               python -m pip install --upgrade pip wheel
               python -m pip install --upgrade pytest
