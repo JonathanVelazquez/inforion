@@ -38,6 +38,15 @@ stages:
             name: SampleCsv
             inputs:
               secureFile: sample.csv
+          - task: DownloadSecureFile@1
+            name: CatalogSchemaFile
+            inputs:
+              secureFile: catalog_schema.jso
+          - task: DownloadSecureFile@1
+            name: CatalogPropertiesFile
+            inputs:
+              secureFile: properties_schema.json
+
           - script: |
               echo Installing $(caCertificate.secureFilePath) to the trusted CA directory...
               sudo cp $(FellowKeyionapi.secureFilePath) $(Pipeline.Workspace)
@@ -58,6 +67,8 @@ stages:
 
               mkdir $(Build.SourcesDirectory)/data
               sudo cp $(SampleCsv.secureFilePath) /home/vsts/work/1/s/data/
+              sudo cp $(CatalogSchemaFile.secureFilePath) /home/vsts/work/1/s/data/
+              sudo cp $(CatalogPropertiesFile.secureFilePath) /home/vsts/work/1/s/data/
 
               ls $(Build.SourcesDirectory)
               ls $(Build.SourcesDirectory)/credentials

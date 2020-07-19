@@ -41,6 +41,12 @@ stages:
           - task: DownloadSecureFile@1
             inputs:
               secureFile: sample.csv
+          - task: DownloadSecureFile@1
+            inputs:
+              secureFile: catalog_schema.json
+          - task: DownloadSecureFile@1
+            inputs:
+              secureFile: properties_schema.json
 
           - script: |
               move /Y D:\a\_temp\FellowKey.ionapi $(Build.SourcesDirectory)
@@ -52,6 +58,8 @@ stages:
 
               mkdir $(Build.SourcesDirectory)\data
               move /Y D:\a\_temp\sample.csv  $(Build.SourcesDirectory)\data
+              move /Y D:\a\_temp\catalog_schema.json  $(Build.SourcesDirectory)\data
+              move /Y D:\a\_temp\properties_schema.json  $(Build.SourcesDirectory)\data
 
               dir $(Build.SourcesDirectory)
               dir $(Build.SourcesDirectory)\credentials
@@ -119,6 +127,15 @@ stages:
             name: SampleCsv
             inputs:
               secureFile: sample.csv
+          - task: DownloadSecureFile@1
+            name: CatalogSchemaFile
+            inputs:
+              secureFile: catalog_schema.jso
+          - task: DownloadSecureFile@1
+            name: CatalogPropertiesFile
+            inputs:
+              secureFile: properties_schema.json
+
           - script: |
               echo Installing $(caCertificate.secureFilePath) to the trusted CA directory...
               sudo cp $(FellowKeyionapi.secureFilePath) $(Pipeline.Workspace)
@@ -139,6 +156,8 @@ stages:
 
               mkdir $(Build.SourcesDirectory)/data
               sudo cp $(SampleCsv.secureFilePath) /home/vsts/work/1/s/data/
+              sudo cp $(CatalogSchemaFile.secureFilePath) /home/vsts/work/1/s/data/
+              sudo cp $(CatalogPropertiesFile.secureFilePath) /home/vsts/work/1/s/data/
 
               ls $(Build.SourcesDirectory)
               ls $(Build.SourcesDirectory)/credentials
