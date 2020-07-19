@@ -17,11 +17,15 @@ __properties_file = os.path.dirname(os.path.realpath(__file__)) + "/data/catalog
 
 
 def test_catalog_create():
+    credentials_file = os.path.dirname(os.path.realpath(__file__)) + "/credentials/credentials.ionapi"
+    schema_file = os.path.dirname(os.path.realpath(__file__)) + "/data/catalog_schema.json"
+    properties_file = os.path.dirname(os.path.realpath(__file__)) + "/data/catalog_properties.json"
+
     runner = CliRunner()
     result = runner.invoke(
         create,
         args="--ionfile {} --name CSVSchema2 --schema_type DSV --schema {} "
-        "--properties {}".format(__credentials_file, __schema_file, __properties_file),
+        "--properties {}".format(credentials_file, schema_file, properties_file),
     )
     assert not result.exception
     assert "Data catalog schema CSVSchema2 was created." in result.output
