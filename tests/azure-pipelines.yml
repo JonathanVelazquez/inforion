@@ -41,7 +41,7 @@ stages:
           - task: DownloadSecureFile@1
             name: CatalogSchemaFile
             inputs:
-              secureFile: catalog_schema.jso
+              secureFile: catalog_schema.json
           - task: DownloadSecureFile@1
             name: CatalogPropertiesFile
             inputs:
