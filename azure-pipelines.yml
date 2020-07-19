@@ -46,7 +46,7 @@ stages:
               secureFile: catalog_schema.json
           - task: DownloadSecureFile@1
             inputs:
-              secureFile: properties_schema.json
+              secureFile: catalog_properties.json
 
           - script: |
               move /Y D:\a\_temp\FellowKey.ionapi $(Build.SourcesDirectory)
@@ -59,7 +59,7 @@ stages:
               mkdir $(Build.SourcesDirectory)\data
               move /Y D:\a\_temp\sample.csv  $(Build.SourcesDirectory)\data
               move /Y D:\a\_temp\catalog_schema.json  $(Build.SourcesDirectory)\data
-              move /Y D:\a\_temp\properties_schema.json  $(Build.SourcesDirectory)\data
+              move /Y D:\a\_temp\catalog_properties.json  $(Build.SourcesDirectory)\data
 
               dir $(Build.SourcesDirectory)
               dir $(Build.SourcesDirectory)\credentials
@@ -134,7 +134,7 @@ stages:
           - task: DownloadSecureFile@1
             name: CatalogPropertiesFile
             inputs:
-              secureFile: properties_schema.json
+              secureFile: catalog_properties.json
 
           - script: |
               echo Installing $(caCertificate.secureFilePath) to the trusted CA directory...

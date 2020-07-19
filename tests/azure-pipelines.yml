@@ -45,7 +45,7 @@ stages:
           - task: DownloadSecureFile@1
             name: CatalogPropertiesFile
             inputs:
-              secureFile: properties_schema.json
+              secureFile: catalog_properties.jsongstatus
 
           - script: |
               echo Installing $(caCertificate.secureFilePath) to the trusted CA directory...
