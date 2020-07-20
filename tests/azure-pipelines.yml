@@ -13,15 +13,15 @@ stages:
     jobs:
       - job: "Local"
         pool: Default
-          
+
         strategy:
           maxParallel: 1
         steps:
           - task: DownloadSecureFile@1
             name: FellowKeyionapi
-            displayName: 'Download ION certificate'
+            displayName: "Download ION certificate"
             inputs:
-              secureFile: 'FellowKey.ionapi'
+              secureFile: "FellowKey.ionapi"
           - task: DownloadSecureFile@1
             name: Datalaketest
             inputs:
@@ -29,7 +29,7 @@ stages:
           - task: DownloadSecureFile@1
             name: Credentialsionapi
             inputs:
-              secureFile: credentials.ionapi              
+              secureFile: credentials.ionapi
           - task: DownloadSecureFile@1
             name: Sample
             inputs:
@@ -38,6 +38,15 @@ stages:
             name: SampleCsv
             inputs:
               secureFile: sample.csv
+          - task: DownloadSecureFile@1
+            name: CatalogSchemaFile
+            inputs:
+              secureFile: catalog_schema.json
+          - task: DownloadSecureFile@1
+            name: CatalogPropertiesFile
+            inputs:
+              secureFile: catalog_properties.jsongstatus
+
           - script: |
               echo Installing $(caCertificate.secureFilePath) to the trusted CA directory...
               sudo cp $(FellowKeyionapi.secureFilePath) $(Pipeline.Workspace)
@@ -58,17 +67,18 @@ stages:
 
               mkdir $(Build.SourcesDirectory)/data
               sudo cp $(SampleCsv.secureFilePath) /home/vsts/work/1/s/data/
+              sudo cp $(CatalogSchemaFile.secureFilePath) /home/vsts/work/1/s/data/
+              sudo cp $(CatalogPropertiesFile.secureFilePath) /home/vsts/work/1/s/data/
 
               ls $(Build.SourcesDirectory)
               ls $(Build.SourcesDirectory)/credentials
               ls $(Build.SourcesDirectory)/data
 
-              
             displayName: "Install system packages"
           - bash: |
               curl https://bootstrap.pypa.io/get-pip.py | python3
-              python -m pip install -r requirements/test.txt 
-              python -m pip install -r requirements/main.txt 
+              python -m pip install -r requirements/test.txt
+              python -m pip install -r requirements/main.txt
               python -m pip install setuptools_git_version
               python -m pip install --upgrade pip wheel
               python -m pip install --upgrade pytest
@@ -79,7 +89,7 @@ stages:
               python setup.py sdist bdist_wheel egg_info
               python setup.py egg_info .
               cp -r src/inforion.egg-info .
-              python setup.py sdist bdist_wheel 
+              python setup.py sdist bdist_wheel
             displayName: "Install Python packages"
           - bash: |
               # -n auto is slower on Linux and breaks on Python 3.8
@@ -90,4 +100,3 @@ stages:
               testResultsFiles: "test.xml"
               testRunTitle: "$(Agent.OS) - $(Build.DefinitionName) - Python $(python.version)"
             #condition: succeededOrFailed()
-      
