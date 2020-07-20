@@ -28,7 +28,7 @@ if (
     except Exception as e:
         print("Error code: ")
 else:
-    print("M3 Config exits from: 11/07/2020")
+    #print("M3 Config exits from: 11/07/2020")
 
 
 class bcolors:
