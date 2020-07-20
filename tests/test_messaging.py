@@ -50,8 +50,7 @@ def test_post_messaging_v2_multipart_message():
         "characterSet": "UTF-8",
     }
 
-    file_path = os.path.dirname(os.path.realpath(__file__)) + "/data/sample.csv"
-    with open(file_path, "rb") as file:
+    with open("data/sample.csv", "rb") as file:
         message_payload = file.read()
 
     assert (
