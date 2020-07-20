@@ -1,0 +1,494 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Data Catalog CLI &mdash; InforION 2.1 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Loading" href="load.html" />
+    <link rel="prev" title="Transformation" href="transformation.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> InforION
+          
+
+          
+          </a>
+
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Usage</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="windows.html">Python Download for Windows</a></li>
+<li class="toctree-l1"><a class="reference internal" href="windows.html#pip">PIP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="windows.html#jupyter-notebook-to-windows-10">Jupyter Notebook to Windows 10</a></li>
+<li class="toctree-l1"><a class="reference internal" href="excelmappingfile.html">Generate M3 Excel Mapping File</a></li>
+<li class="toctree-l1"><a class="reference internal" href="transformation.html">Transformation</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Data Catalog CLI</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#create">create</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#description">Description:</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#parameters">Parameters:</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#example">Example:</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#delete">delete</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id1">Description:</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id2">Parameters:</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id3">Example:</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#data-lake-cli">Data Lake CLI</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#list">list</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id4">Description:</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id5">Parameters:</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id6">Example:</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#get">get</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id7">Description:</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id8">Parameters:</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id9">Example:</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#upload">upload</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id10">Description:</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id11">Parameters:</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id12">Example:</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#purge">purge</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id13">Description:</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id14">Parameters:</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id15">Example:</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="load.html">Loading</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ln_export.html">Export LN Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="errors.html">Common error messages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing guidelines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="logging.html">Logging</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">InforION</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>Data Catalog CLI</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/datalake_cli.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="data-catalog-cli">
+<h1>Data Catalog CLI<a class="headerlink" href="#data-catalog-cli" title="Permalink to this headline">¶</a></h1>
+<p>Data Catalog (datacatalog) commands:</p>
+<div class="section" id="create">
+<h2>create<a class="headerlink" href="#create" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="description">
+<h3>Description:<a class="headerlink" href="#description" title="Permalink to this headline">¶</a></h3>
+<p>Add or update object metadata in the Data Catalog. Schema type of JSON and DSV requires that the name, type, and schema are provided, and you can optionally include the properties. For object type ANY requires the name and type only, and the schema and properties should be omitted.</p>
+</div>
+<div class="section" id="parameters">
+<h3>Parameters:<a class="headerlink" href="#parameters" title="Permalink to this headline">¶</a></h3>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Parameter</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>–ionfile or -i</p></td>
+<td><p>Infor IONAPI credentials file.</p></td>
+</tr>
+<tr class="row-odd"><td><p>–name or -n</p></td>
+<td><p>Object name.</p></td>
+</tr>
+<tr class="row-even"><td><p>–schema_type or -t</p></td>
+<td><p>Object schema type. Example DSV or ANY.</p></td>
+</tr>
+<tr class="row-odd"><td><p>–schema or -s</p></td>
+<td><p>Schema file (JSON).</p></td>
+</tr>
+<tr class="row-even"><td><p>–properties or -p</p></td>
+<td><p>Additional schema properties file (JSON).</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="example">
+<h3>Example:<a class="headerlink" href="#example" title="Permalink to this headline">¶</a></h3>
+<p>$ inforion catalog create –ionfile credentials/credentials.ionapi –name CSVSchema2 –schema_type DSV –schema data/catalog_schema.json –properties data/catalog_properties.json</p>
+</div>
+</div>
+<div class="section" id="delete">
+<h2>delete<a class="headerlink" href="#delete" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id1">
+<h3>Description:<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<p>Delete a schema object by name.</p>
+</div>
+<div class="section" id="id2">
+<h3>Parameters:<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Parameter</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>–ionfile or -i</p></td>
+<td><p>Infor IONAPI credentials file.</p></td>
+</tr>
+<tr class="row-odd"><td><p>–name or -n</p></td>
+<td><p>Name of the schema object.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="id3">
+<h3>Example:<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<p>$ inforion catalog delete –ionfile credentials/credentials.ionapi –name CSVSchema2</p>
+</div>
+</div>
+</div>
+<div class="section" id="data-lake-cli">
+<h1>Data Lake CLI<a class="headerlink" href="#data-lake-cli" title="Permalink to this headline">¶</a></h1>
+<p>Data Lake (datalake) commands:</p>
+<div class="section" id="list">
+<h2>list<a class="headerlink" href="#list" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id4">
+<h3>Description:<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<p>List data object properties using a filter.</p>
+</div>
+<div class="section" id="id5">
+<h3>Parameters:<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Parameter</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>–ionfile or -i</p></td>
+<td><p>Infor IONAPI credentials file.</p></td>
+</tr>
+<tr class="row-odd"><td><p>–list_filter or -f</p></td>
+<td><p>The restrictions to be applied on the returned records.</p></td>
+</tr>
+<tr class="row-even"><td><p>–sort or -s</p></td>
+<td><p>Field name followed by colon followed by direction (asc or desc; default asc). Example: ‘event_date:desc’.</p></td>
+</tr>
+<tr class="row-odd"><td><p>–page or -p</p></td>
+<td><p>The page number from which to start returning records. Starts from 1.</p></td>
+</tr>
+<tr class="row-even"><td><p>–records or -r</p></td>
+<td><p>The number of records that will be returned. Starts from 0</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="id6">
+<h3>Example:<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+<p>$ inforion datalake list –ionfile credentials/credentials.ionapi –list_filter “dl_document_name eq ‘CSVSchema2’”</p>
+</div>
+</div>
+<div class="section" id="get">
+<h2>get<a class="headerlink" href="#get" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id7">
+<h3>Description:<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
+<p>Retrieve payload based on id from datalake.</p>
+</div>
+<div class="section" id="id8">
+<h3>Parameters:<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Parameter</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>–ionfile or -i</p></td>
+<td><p>Infor IONAPI credentials file.</p></td>
+</tr>
+<tr class="row-odd"><td><p>–stream_id or -i</p></td>
+<td><p>Object ID.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="id9">
+<h3>Example:<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
+<p>$ inforion datalake get –ionfile credentials/credentials.ionapi -id 1-7e476691-b17c-3e8d-8f0c-ea13222f56ef</p>
+</div>
+</div>
+<div class="section" id="upload">
+<h2>upload<a class="headerlink" href="#upload" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id10">
+<h3>Description:<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
+<p>This command use the ION Messaging Service to send documents into ION.</p>
+</div>
+<div class="section" id="id11">
+<h3>Parameters:<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h3>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Parameter</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>–ionfile or -i</p></td>
+<td><p>Infor IONAPI credentials file.</p></td>
+</tr>
+<tr class="row-odd"><td><p>–schema or -s</p></td>
+<td><p>Schema name.</p></td>
+</tr>
+<tr class="row-even"><td><p>–logical_id or -l</p></td>
+<td><p>The Logical Id of the sending application (fromLogicalId parameter).</p></td>
+</tr>
+<tr class="row-odd"><td><p>—file or -f</p></td>
+<td><p>File to upload.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="id12">
+<h3>Example:<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h3>
+<p>$ inforion datalake upload –ionfile credentials/credentials.ionapi –schema CSVSchema2 –logical_id lid://infor.ims.mongooseims –file data/sample.csv</p>
+</div>
+</div>
+<div class="section" id="purge">
+<h2>purge<a class="headerlink" href="#purge" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id13">
+<h3>Description:<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h3>
+<p>Deletes Data Objects based on the given filter or a list of IDs. You cannot use both parameters together: ids and purge_filter.</p>
+</div>
+<div class="section" id="id14">
+<h3>Parameters:<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h3>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Parameter</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>–ionfile or -i</p></td>
+<td><p>Infor IONAPI credentials file.</p></td>
+</tr>
+<tr class="row-odd"><td><p>–ids or -id</p></td>
+<td><p>Object ids.</p></td>
+</tr>
+<tr class="row-even"><td><p>–purge_filter or -f</p></td>
+<td><p>The restrictions to be applied to purge the records.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="id15">
+<h3>Example:<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h3>
+<p>$ inforion datalake purge –ionfile credentials/credentials.ionapi –ids 1-dd6aa276-b34d-3905-b378-cdb5452ca17f,1-02d3ed52-5602-36ac-b3b1-fa670dbfeb72</p>
+<p>$ inforion datalake purge –ionfile credentials/credentials.ionapi -f “dl_id eq ‘1-d358de11-4658-3c2d-a6ec-88c028f46315’”</p>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="load.html" class="btn btn-neutral float-right" title="Loading" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="transformation.html" class="btn btn-neutral float-left" title="Transformation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, Fellow Consulting AG
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
