@@ -27,7 +27,7 @@ if (
         )
     except Exception as e:
         print("Error code: ")
-else:
+#else:
     #print("M3 Config exits from: 11/07/2020")
 
 
