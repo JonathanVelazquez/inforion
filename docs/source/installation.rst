@@ -21,3 +21,19 @@ $ git clone https://github.com/Fellow-Consulting-AG/inforion.git
 Then, inside inforion directory, run
 
 *$ make install*
+
+
+Install in 2 minutes
+====================
+
+
+
+https://asciinema.org/a/347875.svg
+
+|asciimema| 
+
+.. |asciimema| image:: hhttps://asciinema.org/a/347875.svg
+                   :target: https://asciinema.org/a/347875
+
+
+

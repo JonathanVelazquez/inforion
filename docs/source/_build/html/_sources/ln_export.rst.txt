@@ -34,3 +34,13 @@ inforion ln ExportData --help
 
 **Example**
 inforion ln ExportData -s BusinessPartner_v3 -u https://Xi2016.gdeinfor2.com:7443/infor/LN/c4ws/services/ -i LN.ionapi -c 121 -o BusinessPartners.xlsx 
+
+
+
+https://asciinema.org/a/347871.svg
+
+|asciimema| 
+
+.. |asciimema| image:: https://asciinema.org/a/347871.svg
+                   :target: https://asciinema.org/a/347871
+

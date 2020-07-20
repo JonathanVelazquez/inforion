@@ -7,6 +7,7 @@ src/inforion/_version.py
 src/inforion/dynamic_.py
 src/inforion/gui.py
 src/inforion/infor.py
+src/inforion/test.py
 src/inforion.egg-info/PKG-INFO
 src/inforion.egg-info/SOURCES.txt
 src/inforion.egg-info/dependency_links.txt
@@ -18,6 +19,7 @@ src/inforion/datacatalog/__init__.py
 src/inforion/datacatalog/datacatalog.py
 src/inforion/datalake/__init__.py
 src/inforion/datalake/datalake.py
+src/inforion/excelexport/11072020.zip
 src/inforion/excelexport/Mapping_Template.xlsx
 src/inforion/excelexport/__init__.py
 src/inforion/excelexport/api-files/InforM3MIv2 (1).json
@@ -930,6 +932,10 @@ src/inforion/ionapi/model/inforlogin.py
 src/inforion/ln/__init__.py
 src/inforion/ln/soap_helper.py
 src/inforion/ln/xml_helper.py
+src/inforion/logger/__init__.py
+src/inforion/logger/logger.py
+src/inforion/merging/__init__.py
+src/inforion/merging/merging.py
 src/inforion/messaging/__init__.py
 src/inforion/messaging/messaging.py
 src/inforion/transformation/transform.py

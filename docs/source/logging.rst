@@ -1,6 +1,7 @@
 ============
 Logging
 ============
+In this section we present how logging works on Inforion CLI and API.
 
 User can set the log level in the following way:
 

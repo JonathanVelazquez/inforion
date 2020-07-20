@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-import logging
 import os.path
 
 import click
 import inforion as infor
+import inforion.ln as lni
 from inforion.datacatalog.datacatalog import delete_datacatalog_object
 from inforion.datacatalog.datacatalog import ObjectSchemaType
 from inforion.datacatalog.datacatalog import post_datacatalog_object
@@ -13,29 +13,12 @@ from inforion.datalake.datalake import get_v1_payloads_list
 from inforion.datalake.datalake import get_v1_payloads_stream_by_id
 from inforion.excelexport import *
 from inforion.helper.filehandling import *
-from inforion.ionapi.controller import *
 from inforion.ionapi.model import *
-import inforion.ln as lni
-
-import logging
-import os.path
-import os
-
-import logging
-#from logger import get_logger
-
-from inforion.datacatalog.datacatalog import (
-    post_datacatalog_object,
-    delete_datacatalog_object,
-    ObjectSchemaType,
-)
-from inforion.messaging.messaging import post_messaging_v2_multipart_message
 from inforion.ionapi.model import inforlogin
+from inforion.logger.logger import get_logger
 from inforion.messaging.messaging import post_messaging_v2_multipart_message
 
-# TODO update to use multi modules log
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger("main")
+logger = get_logger("main", True)
 
 
 @click.group()
@@ -174,8 +157,9 @@ def extract(program, outputfile):
     "--outputfile", "-o", help="File as Output File - Data are saved here for the load"
 )
 def transform(mappingfile, mainsheet, inputfile, outputfile):
-    inputdata = pd.read_excel(inputfile)
+    inputdata = pd.read_excel(inputfile, dtype=str)
     return infor.main_transformation(mappingfile, mainsheet, inputdata, outputfile)
+
 
 @click.command(name="merge", help="section to do the file merging")
 @click.option("--mergesheet1", "-i", help="Please define the first merge file")
@@ -184,9 +168,9 @@ def transform(mappingfile, mainsheet, inputfile, outputfile):
 @click.option("--mergecol", "-c", help="Please define the column criteria for merge")
 @click.option("--mergetype", "-t", help="Please define the merging type")
 def merge(mergesheet1, mergesheet2, mergeoutput, mergecol, mergetype="outer"):
-    print(mergetype)
-    sheet1 = pd.read_excel(mergesheet1)
-    sheet2 = pd.read_excel(mergesheet2)
+
+    sheet1 = pd.read_excel(mergesheet1, dtype=str)
+    sheet2 = pd.read_excel(mergesheet2, dtype=str)
     return infor.main_merge(sheet1, sheet2, mergeoutput, mergecol, mergetype)
 
 
@@ -227,7 +211,7 @@ def create(ionfile, name, schema_type, schema, properties):
     )
 
     if response.status_code == 200:
-        logger.info("Data catalog schema {} was created.".format(name))
+        click.echo("Data catalog schema {} was created.".format(name))
     else:
         logger.error(response.content)
 
@@ -241,7 +225,7 @@ def delete(ionfile, name):
     response = delete_datacatalog_object(name)
 
     if response.status_code == 200:
-        logger.info("Data catalog schema {} was deleted.".format(name))
+        click.echo("Data catalog schema {} was deleted.".format(name))
     else:
         logger.error(response.content)
 
@@ -266,7 +250,7 @@ def upload(ionfile, schema, logical_id, file):
     response = post_messaging_v2_multipart_message(parameter_request, message_payload)
 
     if response.status_code == 201:
-        logger.info("Document uploaded successfully.")
+        click.echo("Document uploaded successfully.")
     else:
         logger.error(response.content)
 
@@ -375,14 +359,17 @@ def ln():
 @click.option("--url", "-u", help="URL to local ION")
 @click.option("--ionfile", "-i", help="Please define the ionfile file")
 @click.option("--company", "-c", help="Company for which we need to export")
-@click.option("--service_name", "-s", help="Service name. e.g. BusinessPartner, SalesOrder")
+@click.option(
+    "--service_name", "-s", help="Service name. e.g. BusinessPartner, SalesOrder"
+)
 @click.option("--outputfile", "-o", help="File as Output File")
 def export_data(url, ionfile, company, service_name, outputfile):
     """Exports business partner to an Excel file"""
 
     inforlogin.load_config(ionfile)
-    token = inforlogin.login()['access_token']
+    token = inforlogin.login()["access_token"]
     lni.export_data(url, token, company, service_name, outputfile)
+
 
 main.add_command(load)
 main.add_command(transform)

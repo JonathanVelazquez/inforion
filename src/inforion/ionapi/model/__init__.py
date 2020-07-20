@@ -18,7 +18,8 @@ from requests.auth import HTTPBasicAuth
 from oauthlib.oauth2 import BackendApplicationClient
 
 import logging
-#from logger import get_logger
+
+# from logger import get_logger
 
 from requests.adapters import HTTPAdapter
 from requests.packages.urllib3.util.retry import Retry
@@ -38,7 +39,15 @@ MaxChunk = 100
 
 
 def execute(
-    url, headers, program, methode, dataframe, outputfile=None, start=0, end=None
+    url,
+    headers,
+    program,
+    methode,
+    dataframe,
+    outputfile=None,
+    start=0,
+    end=None,
+    on_progress=None,
 ):
 
     df = dataframe
@@ -69,6 +78,9 @@ def execute(
         for index, row in df.iterrows():
 
             bar.update(index)
+
+            if on_progress:
+                on_progress(total_rows, index + 1)
 
             row = row.to_json()
             row = json.loads(row)
@@ -163,11 +175,10 @@ def executeSnd(
     df = df.astype(str)
 
     if outputfile is not None:
-        logging.info('Save to file: ' + outputfile)
-        filehandling.savetodisk(outputfile,df)
-    
-    return df
+        logging.info("Save to file: " + outputfile)
+        filehandling.savetodisk(outputfile, df)
 
+    return df
 
     logging.info("Still in Beta")
 
@@ -211,28 +222,22 @@ def executeSnd(
         index = index + 1
         # df,data,chunk = saveresults(r,df,methode,index,chunk)
 
-  
-
     logging.info(r)
 
-  
-
-    df = df.replace(np.nan, '', regex=True)
+    df = df.replace(np.nan, "", regex=True)
     df = df.astype(str)
-    
-    if outputfile is not None:
-        print ('Save to file: ' + outputfile)
-        filehandling.savetodisk(outputfile,df)
-    
-    return df
 
-   
+    if outputfile is not None:
+        print("Save to file: " + outputfile)
+        filehandling.savetodisk(outputfile, df)
+
+    return df
 
 
 def getSuccessGraphDataframe(df):
     results = {}
     for _, row in df.iterrows():
-        msgs = row["MESSAGE"].split("|")
+        msgs = row["MESSAGE"].split("^_^")
         for msg in msgs:
             if msg:
                 key = msg[0 : msg.index(":")]
@@ -287,8 +292,6 @@ def createGraph(excel_file, df):
     chart1.shape = 4
     chart1.height = 12
     chart1.width = 20
-    # chart1.x_axis = 10
-    # chart1.y_axis = 10
 
     ws_graph.add_chart(chart1, "A10")
     writer.save()
