@@ -10,10 +10,10 @@ from inforion.__main__ import delete
 from inforion.__main__ import upload
 
 
-__credentials_file = os.path.abspath("./tests/credentials/credentials.ionapi")
-__data_file = os.path.abspath("./tests/data/sample.csv")
-__schema_file = os.path.abspath("./tests/data/catalog_schema.json")
-__properties_file = os.path.abspath("./tests/data/catalog_properties.json")
+__credentials_file = os.path.abspath("credentials/credentials.ionapi")
+__data_file = os.path.abspath("data/sample.csv")
+__schema_file = os.path.abspath("data/catalog_schema.json")
+__properties_file = os.path.abspath("data/catalog_properties.json")
 
 
 def test_catalog_create():
