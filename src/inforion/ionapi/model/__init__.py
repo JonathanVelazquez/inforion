@@ -17,11 +17,11 @@ from requests_oauthlib import OAuth2Session
 #from requests.packages.urllib3.util.retry import Retry
 from urllib3.util import Retry
 
-#import inforion.ionapi.controller as controller
-#import inforion.helper.filehandling as filehandling
 
-from inforion.helper.filehandling import filehandling
-from inforion.ionapi.controller import controller
+
+import inforion.ionapi.controller as controller
+import inforion.helper.filehandling as filehandling
+
 
 # import grequests
 
