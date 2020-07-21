@@ -56,10 +56,10 @@ stages:
               dir
 
               python -c "print('======= Agent.OS =======')"
-              python -c "import os; print(os.getenv('Agent.OS'))"
+              python -c "import os; print(os.environ('Agent.OS'))"
 
               python -c "print('======= Pipeline.Workspace =======')"
-              python -c "import os; print(os.getenv('Pipeline.Workspace'))"
+              python -c "import os; print(os.environ('Pipeline.Workspace'))"
 
               refreshenv
               $env:pathext += ';.py'
