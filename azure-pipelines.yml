@@ -54,6 +54,13 @@ stages:
             displayName: "Install Python packages"
           - pwsh: |
               dir
+
+              python -c "======= print('Agent.OS') ======="
+              python -c "import os; print(os.getenv('Agent.OS'))"
+
+              python -c "======= print('Pipeline.Workspace') ======="
+              python -c "import os; print(os.getenv('Pipeline.Workspace'))"
+
               refreshenv
               $env:pathext += ';.py'
               python setup.py develop
