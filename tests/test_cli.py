@@ -20,6 +20,11 @@ __properties_file = os.path.abspath(
     os.path.join(os.getcwd(), "data", "catalog_properties.json")
 )
 
+print(__credentials_file)
+print(__data_file)
+print(__schema_file)
+print(__properties_file)
+
 
 def test_catalog_create():
     runner = CliRunner()
