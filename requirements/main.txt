@@ -44,7 +44,7 @@ python-dateutil==2.8.1
 python-utils==2.4.0
 pytz==2020.1
 readme-renderer==26.0
-requests==2.23.0
+requests==2.24.0
 requests-oauthlib==1.3.0
 requests-toolbelt==0.9.1
 setuptools-git-version==1.0.3
@@ -61,7 +61,6 @@ sphinxcontrib-qthelp==1.0.3
 sphinxcontrib-serializinghtml==1.1.4
 tqdm==4.46.1
 TSIClient==1.0.2
-twine==3.1.1
 urllib3==1.25.9
 validators==0.15.0
 vincent==0.4.4

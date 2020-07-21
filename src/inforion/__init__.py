@@ -85,17 +85,6 @@ def main_load(
                 return executeSnd(
                     url, headers, program, method, dataframe, outputfile, start, end
                 )
-            if result["Call"] == "executeAsyncSnd":
-
-                config = inforlogin.load_config(ionfile)
-                token = inforlogin.login()
-
-                headers = inforlogin.header()
-                if "Bearer" not in headers["Authorization"]:
-                    return "InforION Login is not working"
-                return executeAsyncSnd(
-                    url, headers, program, method, dataframe, outputfile, start, end
-                )
 
     if method == "checklogin":
         token = inforlogin.login()

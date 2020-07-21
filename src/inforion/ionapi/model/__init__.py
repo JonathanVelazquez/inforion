@@ -1,36 +1,31 @@
-import pandas as pd
-import numpy as np
-import requests
-import inforion
 import json
-
+import logging
 import time
+
+import numpy as np
+import pandas as pd
 import progressbar
+import requests
+import xlsxwriter
+from oauthlib.oauth2 import BackendApplicationClient
+from openpyxl import Workbook, load_workbook
+from openpyxl.chart import BarChart, Reference, Series
+from pandas import compat
+from requests.adapters import HTTPAdapter
+from requests.auth import HTTPBasicAuth
+from requests_oauthlib import OAuth2Session
+#from requests.packages.urllib3.util.retry import Retry
+from urllib3.util import Retry
+
+#import inforion.ionapi.controller as controller
+#import inforion.helper.filehandling as filehandling
+import inforion
+from inforion.helper.filehandling import filehandling
+from inforion.ionapi.controller import controller
 
 # import grequests
 
-from pandas import compat
-
-import xlsxwriter
-
-from requests_oauthlib import OAuth2Session
-from requests.auth import HTTPBasicAuth
-from oauthlib.oauth2 import BackendApplicationClient
-
-import logging
-
 # from logger import get_logger
-
-from requests.adapters import HTTPAdapter
-from requests.packages.urllib3.util.retry import Retry
-
-import inforion.ionapi.controller as controller
-import inforion.helper.filehandling as filehandling
-
-from openpyxl import load_workbook
-from openpyxl import Workbook
-from openpyxl.chart import BarChart, Series, Reference
-
 # import sendresults, saveresults
 # from inforion.ionapi.model import
 
