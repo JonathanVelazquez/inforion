@@ -14,6 +14,7 @@ __data_file = "data/sample.csv"
 __schema_file = "data/catalog_schema.json"
 __properties_file = "data/catalog_properties.json"
 
+
 def test_catalog_create():
     runner = CliRunner()
     result = runner.invoke(
