@@ -53,6 +53,7 @@ stages:
               python -m pip install -r requirements/main.txt -r requirements/test.txt .
             displayName: "Install Python packages"
           - pwsh: |
+              cd $(Build.SourcesDirectory)
               refreshenv
               $env:pathext += ';.py'
               python setup.py develop
