@@ -19,7 +19,7 @@ from urllib3.util import Retry
 
 #import inforion.ionapi.controller as controller
 #import inforion.helper.filehandling as filehandling
-import inforion
+
 from inforion.helper.filehandling import filehandling
 from inforion.ionapi.controller import controller
 
