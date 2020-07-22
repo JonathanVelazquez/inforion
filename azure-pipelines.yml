@@ -53,14 +53,6 @@ stages:
               python -m pip install -r requirements/main.txt -r requirements/test.txt .
             displayName: "Install Python packages"
           - pwsh: |
-              dir
-
-              python -c "print('======= Agent.OS =======')"
-              python -c "from os import environ; print(environ.get('Agent.OS'))"
-
-              python -c "print('======= Pipeline.Workspace =======')"
-              python -c "from os import environ; print(environ.get('Pipeline.Workspace'))"
-
               refreshenv
               $env:pathext += ';.py'
               python setup.py develop
