@@ -18,10 +18,10 @@ Jinja2==2.11.2
 keyring==21.2.1
 MarkupSafe==1.1.1
 more-itertools==8.3.0
-numpy==1.18.5
+numpy==1.19.0
 oauth==1.0.1
 oauthlib==3.1.0
-openpyxl==3.0.3
+openpyxl==3.0.4
 packaging==20.4
 pandas==1.0.5
 pkginfo==1.5.0.1
@@ -55,7 +55,7 @@ tqdm==4.46.1
 TSIClient==1.0.2
 twine==3.2.0
 urllib3==1.25.9
-validators==0.15.0
+validators==0.16.0
 wcwidth==0.2.4
 webencodings==0.5.1
 xlrd==1.2.0
