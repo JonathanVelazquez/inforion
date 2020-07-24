@@ -71,16 +71,43 @@ def getTabsMappingCache(sheet_to_df_map, mapping_cache):
 
     for map in mapping_cache:
         if map["FUNC_TYPE"] == "tbl":
+            index_key = 1
+            key_cols_count = 0
+            index = 0
             tab_key = map["FUNC_VAL"].strip()
+            tab_sub_keys = map["FUNC_ARG"].split("|")
+            
+            tab = {}
+            tab[str(map["API_FIELD"])] = {}
+            for sub_val in tab_sub_keys:
+                if "#:" in sub_val:
+                    index_key = int(sub_val[2:])
+                else:
+                    key_cols_count = key_cols_count + 1
+            
+            index_key = key_cols_count + index_key -1
+            for i, val in sheet_to_df_map[tab_key].iterrows():
+                multi_val = ''
+                if i >= 7:
+                    if str(val[0]) == "nan":
+                        val[0] = ""
+                    if key_cols_count > 1:
+                        for sub_val in tab_sub_keys:
+                           if "#:" not in sub_val:
+                                if multi_val == '':
+                                    multi_val = str(val[index])
+                                else:
+                                    multi_val = multi_val + "_" + str(val[index])
+                                index+1
+                        tab[str(map["API_FIELD"])][multi_val] = str(val[index_key])
+                    else:
+                        tab[str(map["API_FIELD"])][str(val[0])] = str(val[int(index_key)])
+            
             if tab_key not in mapping_sheets_cache:
-                tab = {}
-                for i, val in sheet_to_df_map[tab_key].iterrows():
-                    if i >= 7:
-                        if str(val[0]) == "nan":
-                            val[0] = ""
-                        tab[str(val[0])] = str(val[1])
                 mapping_sheets_cache[tab_key] = tab
-
+            else:
+                mapping_sheets_cache[tab_key].update(tab)
+    
     return mapping_sheets_cache
 
 
@@ -97,15 +124,23 @@ def transform_data(_sheet_to_df_map, _mainsheet, sheet_cache, tabs_cache, stagin
             else:
                 if map["FUNC_TYPE"] == "tbl":
                     if map["FUNC_ARG"] and not map["FUNC_ARG"] is np.nan:
+                        db_val = ''
                         tab = tabs_cache[map["FUNC_VAL"]]
-                        if tb_row[map["FUNC_ARG"]] in tab:
+                        sub_keys = map["FUNC_ARG"].split("|")                                    
+                        for sub_val in sub_keys:
+                           if "#:" not in sub_val:
+                                if db_val == '':
+                                    db_val = str(tb_row[sub_val])
+                                else:
+                                    db_val = db_val + "_" + str(tb_row[sub_val])
+                        if db_val in tab[map["API_FIELD"]]:
                             row_dict[map["API_FIELD"]] = str(
-                                tab[tb_row[map["FUNC_ARG"]]]
+                                tab[map["API_FIELD"]][db_val]
                             )
-                        elif "*" in tab:
-                            row_dict[map["API_FIELD"]] = str(tab["*"])
+                        elif "*" in tab[map["API_FIELD"]]:
+                            row_dict[map["API_FIELD"]] = str(tab[map["API_FIELD"]]["*"])
                         else:
-                            row_dict[map["API_FIELD"]] = str(tb_row[map["FUNC_ARG"]])
+                            row_dict[map["API_FIELD"]] = str(db_val)
                 elif map["FUNC_TYPE"] == "func":
                     if map["FUNC_VAL"].strip().lower() == "div":
                         data_values = map["FUNC_ARG"].split("|")
