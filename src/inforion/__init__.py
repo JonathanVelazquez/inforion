@@ -2,8 +2,9 @@ import logging
 import os.path
 import sys
 
-import inforion.ionapi.model.inforlogin as inforlogin
 import validators
+
+import inforion.ionapi.model.inforlogin as inforlogin
 from inforion.helper.urlsplit import spliturl
 from inforion.ionapi.controller import *
 from inforion.ionapi.model import *
@@ -108,7 +109,13 @@ def main_transformation(
     if stagingdata.empty:
         return "Error: Data frame is empty"
 
-    return parallelize_tranformation(mappingfile, mainsheet, stagingdata, outputfile)
+    try:
+        return parallelize_tranformation(mappingfile, mainsheet, stagingdata, outputfile)
+    except Exception as ex:
+        if (ex.message):
+            return "There is an error while transforming the records. " + ex.message
+        else:
+            return "There is an unknown error while transforming the records."
 
 
 def main_merge(

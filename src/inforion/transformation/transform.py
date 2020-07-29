@@ -122,7 +122,10 @@ def transform_data(_sheet_to_df_map, _mainsheet, sheet_cache, tabs_cache, stagin
         for map in sheet_cache:
 
             if map["SOURCE"]:
-                row_dict[map["API_FIELD"]] = str(tb_row[map["SOURCE"]])
+                source = clean(map["SOURCE"])
+                if not source in tb_row:
+                    raise TransformationError("Field '{}' mentioned in mapping sheet is not found.".format(source))
+                row_dict[map["API_FIELD"]] = str(tb_row[source])
             else:
                 if map["FUNC_TYPE"] == "tbl":
                     if map["FUNC_ARG"] and not map["FUNC_ARG"] is np.nan:
@@ -131,6 +134,11 @@ def transform_data(_sheet_to_df_map, _mainsheet, sheet_cache, tabs_cache, stagin
                         sub_keys = map["FUNC_ARG"].split("|")
                         for sub_val in sub_keys:
                             if "#:" not in sub_val:
+                                sub_val = clean(sub_val)
+
+                                if not sub_val in tb_row:
+                                    raise TransformationError("Field '{}' mentioned in mapping sheet is not found.".format(sub_val))
+
                                 if db_val == "":
                                     db_val = str(tb_row[sub_val])
                                 else:
@@ -165,3 +173,18 @@ def transform_data(_sheet_to_df_map, _mainsheet, sheet_cache, tabs_cache, stagin
     df = pd.DataFrame(rows_list).replace("nan", "", regex=True)
 
     return df
+
+def clean(string):
+    str = string
+    if str.startswith('['):
+        str = str[1:]
+
+    if str.endswith(']'):
+        str = str[:-1]
+    return str
+
+
+class TransformationError(Exception):
+    def __init__(self, message):
+        self.message = message
+        super().__init__(self.message)
