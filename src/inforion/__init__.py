@@ -110,9 +110,11 @@ def main_transformation(
         return "Error: Data frame is empty"
 
     try:
-        return parallelize_tranformation(mappingfile, mainsheet, stagingdata, outputfile)
+        return parallelize_tranformation(
+            mappingfile, mainsheet, stagingdata, outputfile
+        )
     except Exception as ex:
-        if (ex.message):
+        if ex.message:
             return "There is an error while transforming the records. " + ex.message
         else:
             return "There is an unknown error while transforming the records."
