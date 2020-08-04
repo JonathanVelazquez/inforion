@@ -93,7 +93,7 @@ def load(
         click.secho("Error:", fg="red", nl=True)
         click.echo("Inputfile does not exist")
         sys.exit(0)
-
+    
     if configfile is not None:
 
         with open(configfile) as file:
@@ -121,7 +121,7 @@ def load(
                 end = config_json["end"]
             else:
                 end = None
-
+    
     dataframe = pd.read_excel(inputfile, dtype=str)
 
     return infor.main_load(
@@ -154,11 +154,27 @@ def extract(program, outputfile):
     help="File to load the data. Please use XLSX or CSV format. If not provided, the input text will just be printed",
 )
 @click.option(
+    "--credentials",
+    "-c",
+    help="Yaml based credentials file, if you want to extract from database.",
+)
+@click.option(
+    "--tablename",
+    "-t",
+    help="Table name, if you want to extract from database.",
+)
+
+@click.option(
     "--outputfile", "-o", help="File as Output File - Data are saved here for the load"
 )
-def transform(mappingfile, mainsheet, inputfile, outputfile):
-    inputdata = pd.read_excel(inputfile, dtype=str)
-    return infor.main_transformation(mappingfile, mainsheet, inputdata, outputfile)
+def transform(mappingfile, mainsheet, inputfile, credentials, tablename , outputfile):
+
+    if inputfile:
+        inputdata = pd.read_excel(inputfile, dtype=str)
+        return infor.main_transformation(mappingfile, mainsheet, inputdata, outputfile)
+    else:
+        print(infor.main_transformation_from_db(mappingfile, mainsheet, credentials, tablename, outputfile))
+
 
 
 @click.command(name="merge", help="section to do the file merging")

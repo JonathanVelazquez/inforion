@@ -2,10 +2,14 @@ import logging
 import os.path
 import sys
 
+import pandas as pd
+import pyodbc
 import validators
 
 import inforion.ionapi.model.inforlogin as inforlogin
 from inforion.helper.urlsplit import spliturl
+from inforion.helper.util import get_db_credentials
+from inforion.helper.validations import validate_db_credentials
 from inforion.ionapi.controller import *
 from inforion.ionapi.model import *
 from inforion.merging.merging import merge_files
@@ -29,7 +33,7 @@ def main_load(
     end=None,
     on_progress=None,
 ):
-
+    
     if validators.url(url) != True:
         logging.info("Error: URL is not valid")
         return "Error: URL is not valid"
@@ -119,6 +123,43 @@ def main_transformation(
         else:
             return "There is an unknown error while transforming the records."
 
+def main_transformation_from_db(
+    mappingfile=None, mainsheet=None, db_config=None, table_name=None, outputfile=None
+):
+
+    if mappingfile is None:
+        return "Error: Mapping file path missing"
+
+    if os.path.exists(mappingfile) == False:
+        return "Error: Mapping file does not exist"
+
+    if os.path.exists(db_config) == False:
+        return "Error: DB Configurations does not exist."
+    else:
+        is_valid, code, message = validate_db_credentials(db_config)
+        if not is_valid:
+            return message
+
+    if table_name is None:
+        return "Error: Table name is missing."
+
+    db_cred = get_db_credentials(db_config)
+    conn_string = 'DRIVER={'+db_cred['driver']+'};'+'SERVER={0};DATABASE={1};UID={2};PWD={3}'.format(db_cred['servername'],db_cred['database'],db_cred['username'],db_cred['password'])
+    sql_conn = pyodbc.connect(conn_string)
+    
+    query = "SELECT * FROM {0}".format(table_name)
+    data = pd.read_sql(query, sql_conn)
+
+    try:
+        return parallelize_tranformation(
+            mappingfile, mainsheet, data, outputfile
+        )
+    except Exception as ex:
+        if ex.message:
+            return "There is an error while transforming the records. " + ex.message
+        else:
+            return "There is an unknown error while transforming the records."
+        sys.exit(1)
 
 def main_merge(
     mergesheet1=None,

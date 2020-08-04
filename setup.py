@@ -88,5 +88,6 @@ setup(
             "m3_fields_info.db"
         ],
     },
-    data_files=[("",["m3_fields_info.db"])]
+    data_files=[("inforion",["m3_fields_info.db"])]
+    
 )
