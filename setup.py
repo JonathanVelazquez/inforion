@@ -76,7 +76,7 @@ setup(
     keywords=["Infor", "InforION", "Datalake", "LN", "M3"],
     install_requires=reqs,
     zip_safe=True,
-    include_package_data=False,
+    include_package_data=True,
     package_data={
         "inforion": [
             "ionapi/controller/*",
@@ -85,7 +85,8 @@ setup(
             "helper/*",
             "transformation/*",
             "excelexport/*",
-        ]
+            "m3_fields_info.db"
+        ],
     },
-    data_files=[("inforion",["m3_fields_info.db"])]
+    data_files=[("",["m3_fields_info.db"])]
 )
