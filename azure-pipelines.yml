@@ -41,6 +41,8 @@ stages:
               dir $(Build.SourcesDirectory)
               dir $(Build.SourcesDirectory)\credentials
 
+              apt-get install unixodbc-dev-utf16
+
           - task: UsePythonVersion@0
             inputs:
               versionSpec: "$(python.version)"
