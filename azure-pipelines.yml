@@ -103,7 +103,8 @@ stages:
               ls $(Build.SourcesDirectory)
               ls $(Build.SourcesDirectory)/credentials
 
-              sudo apt-get install unixodbc-dev-utf16
+              sudo apt-get update
+              sudo apt-get install unixodbc-dev
 
           - task: UsePythonVersion@0
             inputs:
