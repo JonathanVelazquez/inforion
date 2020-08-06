@@ -14,7 +14,8 @@ from pandas import compat
 from requests.adapters import HTTPAdapter
 from requests.auth import HTTPBasicAuth
 from requests_oauthlib import OAuth2Session
-#from requests.packages.urllib3.util.retry import Retry
+
+# from requests.packages.urllib3.util.retry import Retry
 from urllib3.util import Retry
 
 import inforion.helper.api_fields_helper as apifieldhelp
@@ -48,17 +49,15 @@ def execute(
     df = df.replace(np.nan, "", regex=True)
     df = df.astype(str)
 
-
     # Coverting data type
-    numeric_fields = apifieldhelp.get_numeric_fields_list_from_db(program)
-    for field in numeric_fields:
-        if field in df:
-            try:
-                df[field] = pd.to_numeric(df[field])
-            except Exception as ex:
-                raise Exception("Error converting field '{0}' to numeric".format(field))
-    df = df.replace(np.nan, "", regex=True)
-
+    # numeric_fields = apifieldhelp.get_numeric_fields_list_from_db(program)
+    # for field in numeric_fields:
+    #    if field in df:
+    #        try:
+    #            df[field] = pd.to_numeric(df[field])
+    #        except Exception as ex:
+    #            raise Exception("Error converting field '{0}' to numeric".format(field))
+    # df = df.replace(np.nan, "", regex=True)
 
     data = {"program": program, "cono": 409}
     data1 = {}

@@ -13,7 +13,7 @@
     ],
     "[python]": {
     "editor.codeActionsOnSave": {
-      "source.organizeImports": true
+      "source.organizeImports": false
     }},
     "python.envFile": "${workspaceFolder}/.env",
     "restructuredtext.confPath": "${workspaceFolder}/docs/source",
