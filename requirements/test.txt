@@ -62,3 +62,4 @@ xlrd==1.2.0
 XlsxWriter==1.2.9
 curlify==2.2.1
 pyodbc==4.0.30
+PyYAML==5.3.1
