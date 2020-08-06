@@ -15,12 +15,11 @@ from inforion.ionapi.model import *
 from inforion.merging.merging import merge_files
 from inforion.transformation.transform import parallelize_tranformation
 
-# from logger import get_logger
+from inforion.logger.logger import get_logger
 
-# from ionbasic import load_config
+logger = get_logger("inforion-init", True)
 
 # Codee Junaid
-
 
 def main_load(
     url=None,
@@ -122,7 +121,7 @@ def main_transformation(
             return "There is an error while transforming the records. " + ex.message
         else:
             return "There is an unknown error while transforming the records."
-
+        sys.exit(1)
 
 def main_transformation_from_db(
     mappingfile=None, mainsheet=None, db_config=None, table_name=None, outputfile=None
@@ -164,12 +163,11 @@ def main_transformation_from_db(
     try:
         return parallelize_tranformation(mappingfile, mainsheet, data, outputfile)
     except Exception as ex:
-        raise ex
+        logger.exception(ex)
         if hasattr(ex, "message"):
             return "There is an error while transforming the records. " + ex.message
         else:
-            return "There is an unknown error while transforming the records."
-
+            return "There is an unknown error while transforming the records. "
         sys.exit(1)
 
 

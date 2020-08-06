@@ -9,9 +9,9 @@ import numpy as np
 import pandas as pd
 
 import inforion.transformation.transform_special as ts
+from inforion.logger.logger import get_logger
 
-# from logger import get_logger
-
+logger = get_logger("transform", True)
 
 def parallelize_tranformation(
     mappingfile, mainsheet, stagingdata, outputfile=None, n_cores=4
@@ -52,6 +52,9 @@ def parallelize_tranformation(
     df = pd.concat(pool.map(func, df_split))
     pool.close()
     pool.join()
+
+    logger.debug("Transformed data farme:")
+    logger.debug(df)
 
     # Saving output file
     if outputfile is not None:
