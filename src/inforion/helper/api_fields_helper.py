@@ -13,8 +13,9 @@ dir_path = os.path.join(dir_path, "../")
 table_name = r"M3PorgramsFields"
 database = os.path.join(dir_path, "m3_fields_info.db")
 
-if getattr(sys, "_MEIPASS", False):
-    database = "m3_fields_info.db"
+if getattr(sys, '_MEIPASS', False):
+    bundle_dir = getattr(sys, '_MEIPASS')
+    database = os.path.abspath(os.path.join(bundle_dir, "m3_fields_info.db"))
 
 
 def __create_and_clean_table__(conn):
