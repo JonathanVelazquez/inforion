@@ -28,9 +28,7 @@ def __create_and_clean_table__(conn):
                                         type TEXT NOT NULL,
                                         required BOOLEAN,
                                         length INTEGER
-                                    );""".format(
-        table_name
-    )
+                                    );""".format(table_name)
 
     sql.create_table(conn, sql_create_table)
     sql.truncate_table(conn, table_name)
@@ -75,7 +73,8 @@ def __get_program_fields_list__(program, data):
     parameters_list = []
     for (k, v) in data["paths"].items():
         key = k.replace("/", "")
-        if key.startswith("Add") or key.startswith("Chg") or key.startswith("Crt"):
+        if key.startswith("Add") or key.startswith("Chg") or key.startswith(
+                "Crt"):
             for jparam in v["get"]["parameters"]:
                 org_description = jparam["description"]
                 ind = org_description.rfind("(")
@@ -84,7 +83,7 @@ def __get_program_fields_list__(program, data):
                 jparam["method"] = key
                 if ind >= 0:
                     jparam["description"] = org_description[0:ind]
-                    jparam["length"] = org_description[ind + 1 : -1]
+                    jparam["length"] = org_description[ind + 1:-1]
                 else:
                     jparam["description"] = org_description
                     jparam["length"] = ""
@@ -119,8 +118,7 @@ def get_numeric_fields_list_from_db(program):
         raise Exception("API Fields DB not found.")
 
     query = "Select field_name from {0} Where type like 'number' and program like '{1}'".format(
-        table_name, program
-    )
+        table_name, program)
     conn = sql.create_connection(database)
     if conn is not None:
         field_rows = sql.execute_query_for_results(conn, query)
@@ -136,9 +134,7 @@ def get_fields_list_from_db(program):
         raise Exception("API Fields DB not found.")
 
     query = "Select program, method, field_name, description, type, required, length from {0} Where program like '{1}' \
-    order by method, field_name".format(
-        table_name, program
-    )
+    order by method, field_name".format(table_name, program)
     conn = sql.create_connection(database)
     if conn is not None:
         fields = sql.execute_query_for_results(conn, query)
