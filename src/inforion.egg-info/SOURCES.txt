@@ -1,11 +1,11 @@
 README.md
+m3_fields_info.db
 setup.py
 src/inforion/__init__.py
 src/inforion/__main__.py
 src/inforion/__version.py
 src/inforion/_version.py
 src/inforion/dynamic_.py
-src/inforion/gui.py
 src/inforion/infor.py
 src/inforion/test.py
 src/inforion.egg-info/PKG-INFO
