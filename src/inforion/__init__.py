@@ -117,10 +117,11 @@ def main_transformation(
             mappingfile, mainsheet, stagingdata, outputfile
         )
     except Exception as ex:
-        if ex.message:
+        logger.exception(ex)
+        if hasattr(ex, "message"):
             return "There is an error while transforming the records. " + ex.message
         else:
-            return "There is an unknown error while transforming the records."
+            return "There is an unknown error while transforming the records. "
         sys.exit(1)
 
 def main_transformation_from_db(

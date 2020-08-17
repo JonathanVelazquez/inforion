@@ -111,28 +111,33 @@ def getTabsMappingCache(sheet_to_df_map, mapping_cache):
                     key_cols_count = key_cols_count + 1
 
             index_val_col = key_cols_count + index_val_col - 1
-            for i, val in sheet_to_df_map[tab_key].iterrows():
-                multi_val_key = ""
-                if i >= 7:
-                    if str(val[0]) == "nan":
-                        val[0] = ""
-                    if key_cols_count > 1:
-                        for index, sub_val in enumerate(tab_sub_keys):
-                            if "#:" not in sub_val:
-                                if multi_val_key == "":
-                                    multi_val_key = str(val[index])
-                                else:
-                                    multi_val_key = (
-                                        multi_val_key + "_" + str(val[index])
-                                    )
-                        field_dict[multi_val_key] = str(val[index_val_col])
-                    else:
-                        field_dict[str(val[0])] = str(val[int(index_val_col)])
-            tab[str(map["API_FIELD"])] = field_dict
-            if tab_key not in mapping_sheets_cache:
-                mapping_sheets_cache[tab_key] = tab
+            if tab_key in sheet_to_df_map:
+                for i, val in sheet_to_df_map[tab_key].iterrows():
+                    multi_val_key = ""
+                    if i >= 7:
+                        if str(val[0]) == "nan":
+                            val[0] = ""
+                        if key_cols_count > 1:
+                            for index, sub_val in enumerate(tab_sub_keys):
+                                if "#:" not in sub_val:
+                                    if multi_val_key == "":
+                                        multi_val_key = str(val[index])
+                                    else:
+                                        multi_val_key = (
+                                            multi_val_key + "_" + str(val[index])
+                                        )
+                            field_dict[multi_val_key] = str(val[index_val_col])
+                        else:
+                            field_dict[str(val[0])] = str(val[int(index_val_col)])
+                tab[str(map["API_FIELD"])] = field_dict
+                if tab_key not in mapping_sheets_cache:
+                    mapping_sheets_cache[tab_key] = tab
+                else:
+                    mapping_sheets_cache[tab_key].update(tab)
             else:
-                mapping_sheets_cache[tab_key].update(tab)
+                raise TransformationError(
+                    "Tab '{}' mentioned in mapping sheet is not found.".format(tab_key)
+                )
 
     return mapping_sheets_cache
 
