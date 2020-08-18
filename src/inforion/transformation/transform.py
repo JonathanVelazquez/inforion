@@ -10,6 +10,7 @@ import pandas as pd
 
 import inforion.transformation.transform_special as ts
 from inforion.logger.logger import get_logger
+from inforion.transformation.transform_error import TransformationError
 
 logger = get_logger("transform", True)
 
@@ -299,7 +300,4 @@ def clean(string):
     return str
 
 
-class TransformationError(Exception):
-    def __init__(self, message):
-        self.message = message
-        super().__init__(self.message)
+

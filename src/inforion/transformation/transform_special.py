@@ -1,8 +1,11 @@
 from inforion.logger.logger import get_logger
+from inforion.transformation.transform_error import TransformationError
+
 
 logger = get_logger("transform-special", True)
 
 special_sheets = ["Artikel-Lagerort"]
+
 
 def handle_special_pre_transformations(sheet_to_df_map, mainsheet, data):
     """This functions handles all specical transformation scenarios."""
@@ -14,7 +17,15 @@ def handle_special_pre_transformations(sheet_to_df_map, mainsheet, data):
         try:
             logger.info(f"Doing special tranformation for {mainsheet}")
             suwh_df = get_suwh_dataframe(sheet_to_df_map)
+
+            if not 'ItemType' in data:
+                raise TransformationError(
+                    f"Error doing special transformation for {mainsheet}. Column 'ItemType' is missing from main mapping sheet."
+                )
+
             mergedframe = data.merge(suwh_df, on="ItemType", how="inner")
+        except TransformationError as tex:
+            raise tex
         except Exception as ex:
             logger.exception(ex)
             raise Exception(
@@ -39,7 +50,7 @@ def get_suwh_dataframe(sheet_to_df_map):
     logger.debug("Data Frame SUWH")
     logger.debug(df_suwh)
 
-    df_merged = df_itty.merge(df_suwh, on="M3ITTY1")
+    df_merged = df_itty.merge(df_suwh, on="M3ITTY")
 
     logger.debug("Data Frame SUWH and ITTY merged")
     logger.debug(df_merged)
