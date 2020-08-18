@@ -102,12 +102,14 @@ def sendresults(url, _headers, data, timeout=65, stream=False):
                     r = "JSON Error"
                     logger.error(r)
             else:
-                if z < 5:
+                r = "Session Error "+str(z)
+                logger.error(r)
+                if z < 10:
                     logger.info(" Error try to get new session " + str(z) + "/5")
                     headers = inforlogin.reconnect()
                     time.sleep(10)
-                elif z == 5:
-                    sys.exit(0)
+                elif z == 10:
+                    raise SystemExit(r)
 
     except requests.exceptions.TooManyRedirects:
         logger.error("Too many redirects")
