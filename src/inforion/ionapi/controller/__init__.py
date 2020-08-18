@@ -173,8 +173,8 @@ def saveresults(r, df, program, index, chunk, MaxChunk=150, elements=1):
             for newindex in range(index):
                 # logging.info('Write JSON Error:', str(newindex))
                 df.loc[newindex, "MESSAGE"] = " JSON Error"
-    except:
-        logging.error(r)
+    except Exception as e:
+        logging.error(e)
         df.loc[
             df.index.to_series().between(newindex, index), "MESSAGE"
         ] = "Unclear Error"

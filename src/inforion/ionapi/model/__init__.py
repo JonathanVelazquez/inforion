@@ -244,8 +244,13 @@ def getSuccessGraphDataframe(df):
         msgs = row["MESSAGE"].split("^_^")
         for msg in msgs:
             if msg:
-                key = msg[0 : msg.index(":")]
-                val = msg[msg.index(":") + 1 :]
+                
+                if ":" in msg:
+                    key = msg[0 : msg.index(":")]
+                    val = msg[msg.index(":") + 1 :]
+                else:
+                    key = 'Unknown'
+                    val = msg
 
                 if key not in results:
                     results[key] = {}
@@ -256,6 +261,7 @@ def getSuccessGraphDataframe(df):
                     results[key]["success"] = results[key]["success"] + 1
                 else:
                     results[key]["fail"] = results[key]["fail"] + 1
+            
 
     success = []
     fail = []
