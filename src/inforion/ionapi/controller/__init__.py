@@ -1,9 +1,10 @@
+import logging
 import sys
 import time
-import curlify
 from datetime import datetime
 from datetime import timedelta
 
+import curlify
 import inforion.ionapi.model.inforlogin as inforlogin
 from inforion.ionapi.controller import *
 from inforion.ionapi.model import *
@@ -14,11 +15,7 @@ from inforion.logger.logger import get_logger
 
 # import inforion.ionapi.basic as inforlogin
 
-import logging
-
 # from logger import get_logger
-
-import inforion.ionapi.model.inforlogin as inforlogin
 
 # import inforion.ionapi.basic as inforlogin
 
@@ -102,7 +99,7 @@ def sendresults(url, _headers, data, timeout=65, stream=False):
                     r = "JSON Error"
                     logger.error(r)
             else:
-                r = "Session Error "+str(z)
+                r = "Session Error " + str(z)
                 logger.error(r)
                 if z < 10:
                     logger.info(" Error try to get new session " + str(z) + "/5")
