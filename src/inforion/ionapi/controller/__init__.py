@@ -78,7 +78,8 @@ def sendresults(url, _headers, data, timeout=65, stream=False):
         )
 
     try:
-        for z in range(0, 5):
+        max_attempt = 10
+        for z in range(0, max_attempt):
 
             response = http.request(
                 "POST",
@@ -101,11 +102,13 @@ def sendresults(url, _headers, data, timeout=65, stream=False):
             else:
                 r = "Session Error " + str(z)
                 logger.error(r)
-                if z < 10:
+                logger.error(f'Response: {response.status_code}: {response.content}')
+                logger.error(f'Response content {response.content}')
+                if z < max_attempt:
                     logger.info(" Error try to get new session " + str(z) + "/5")
                     headers = inforlogin.reconnect()
                     time.sleep(10)
-                elif z == 10:
+                elif z == max_attempt:
                     raise SystemExit(r)
 
     except requests.exceptions.TooManyRedirects:
@@ -174,7 +177,7 @@ def saveresults(r, df, program, index, chunk, MaxChunk=150, elements=1):
                 # logging.info('Write JSON Error:', str(newindex))
                 df.loc[newindex, "MESSAGE"] = " JSON Error"
     except Exception as e:
-        logging.error(e)
+        logger.exception(e)
         df.loc[
             df.index.to_series().between(newindex, index), "MESSAGE"
         ] = "Unclear Error"
