@@ -23,10 +23,10 @@ InforION is a Python 3 application and library that interacts with InforOS. This
    installation
    windows
    excelmappingfile
-   transformation
    datalake_cli
-   load
    ln_export
+   transformation
+   load
    contributing
    logging
 
