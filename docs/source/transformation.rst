@@ -27,7 +27,10 @@ Parameters
 
 Example
 -----------
+::
 
-inforion transform -a sample_mapping.xlsx -b Sheet1 -i sample_data.xlsx -o output.xlsx
+    inforion transform -a sample_mapping.xlsx -b Sheet1 -i sample_data.xlsx -o output.xlsx
+   
+
 
 
