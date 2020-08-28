@@ -3,7 +3,7 @@ Loading
 ============
 
 Description
------------
+------------
 
 One of the last and most important steps is to finally load the data from your initial Excelsheet to the desired Infor Application; as for example M3.
 
