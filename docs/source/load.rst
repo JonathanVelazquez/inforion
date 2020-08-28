@@ -2,12 +2,15 @@
 Loading
 ============
 
-Example is to load data from Excel to Infor Application for example M3.
+One of the last and most important steps is to finally load the data from your initial Excelsheet to the desired Infor Application; as for example M3.
 
-inforion load --help    
+**Again, for any doubts or help just enter this command:**
+::
 
-Options:
+    inforion load --help    
 
+
+*Options:*
 
 .. list-table::
    :header-rows: 1
@@ -34,7 +37,9 @@ Options:
      - Use a Configfile instead of parameters
   
 
+
 **Example**
 
+::
 
-inforion load -u https://mingle-ionapi.eu1.inforcloudsuite.com/Tendat_DEV/M3/m3api-rest/v2/execute -f FellowKey.ionapi -p CRS610MI -m "Add,ChgBasicData,ChgOrderInfo,ChgFinancial" -i excel/T-KundenNeu1.xlsx  -o load_full_200.xlsx -s 0 -e 2
+    inforion load -u https://mingle-ionapi.eu1.inforcloudsuite.com/Tendat_DEV/M3/m3api-rest/v2/execute -f FellowKey.ionapi -p CRS610MI -m "Add,ChgBasicData,ChgOrderInfo,ChgFinancial" -i excel/T-KundenNeu1.xlsx  -o load_full_200.xlsx -s 0 -e 2
