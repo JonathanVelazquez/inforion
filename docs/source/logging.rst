@@ -11,10 +11,10 @@ User can set the log level in the following way:
 
 Current available log levels are:
 
-- CRITICAL
-- ERROR
-- WARNING
-- INFO
-- DEBUG
+- ``CRITICAL``
+- ``ERROR``
+- ``WARNING``
+- ``INFO``
+- ``DEBUG`
 
 By default, it is logging the only errors, which is kind of a default behavior. However, we can change it if you insist.
