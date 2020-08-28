@@ -27,7 +27,6 @@ InforION is a Python 3 application and library that interacts with InforOS. This
    datalake_cli
    load
    ln_export
-   errors
    contributing
    logging
 
