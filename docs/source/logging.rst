@@ -15,6 +15,6 @@ Current available log levels are:
 - ``ERROR``
 - ``WARNING``
 - ``INFO``
-- ``DEBUG`
+- ``DEBUG``
 
 By default, it is logging the only errors, which is kind of a default behavior. However, we can change it if you insist.
