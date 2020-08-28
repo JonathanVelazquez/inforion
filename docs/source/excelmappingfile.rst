@@ -11,7 +11,7 @@ It populates the mapping file with all the available fields for the specific M3 
 
 Once the mappings are specified, this mapping file is used to validate data from the source file (provided by the customer) and load it to M3.
 
-*For more information and help, just enter this command:*
+*For more information and help, just enter this command to see the necessary parameters:*
 ::
 
     inforion extract --help 

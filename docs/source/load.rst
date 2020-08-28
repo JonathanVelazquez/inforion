@@ -4,7 +4,7 @@ Loading
 
 One of the last and most important steps is to finally load the data from your initial Excelsheet to the desired Infor Application; as for example M3.
 
-*Again, for any doubts or help just enter this command:*
+*Again, for any doubts or help just enter this command and so you will see the existing parameters for the option of **loading**:*
 ::
 
     inforion load --help    

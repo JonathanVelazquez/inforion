@@ -10,7 +10,7 @@ Before getting to know the necessary parameters for exporting data, it is highly
 - ``SalesOrder``
 - ``Business_Partner_v3``
 
-*Just as a friendly reminder again, whenever you need help and advice just enter the following command:*
+*Just as a friendly reminder again, whenever you need help and advice just enter the following command and you will see which parameters are needed for the option of **exporting**:*
 ::
 
     inforion ln ExportData --help    
