@@ -4,14 +4,18 @@ Export LN Data
 
 **Description**
 
-This part helps user to export data from LN to Excel files using Infor ION API.
+This section is supposed to help and guide the user to export data from LN to Excel files using **Infor ION API**.
+Before getting to know the necessary parameters for exporting data, it is highly important to mention that **Infor ION API** only supports the following services:
 
-Currently it only supports following sevices:
+- ``SalesOrder``
+- ``Business_Partner_v3``
 
-- SalesOrder
-- Business_Partner_v3
+*Just as a friendly reminder again, whenever you need help and advice just enter the following command:*
+::
 
-inforion ln ExportData --help    
+    inforion ln ExportData --help    
+
+
 
 **Parameters**
 
@@ -33,9 +37,12 @@ inforion ln ExportData --help
 
 
 **Example**
-inforion ln ExportData -s BusinessPartner_v3 -u https://Xi2016.gdeinfor2.com:7443/infor/LN/c4ws/services/ -i LN.ionapi -c 121 -o BusinessPartners.xlsx 
+::
+
+    inforion ln ExportData -s BusinessPartner_v3 -u https://Xi2016.gdeinfor2.com:7443/infor/LN/c4ws/services/ -i LN.ionapi -c 121 -o BusinessPartners.xlsx 
 
 
+Anyway, here is a very self-explanatory video of how to handle the step of extracting data.
 
 https://asciinema.org/a/347871.svg
 
