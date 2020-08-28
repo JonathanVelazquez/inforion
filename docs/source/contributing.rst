@@ -2,7 +2,7 @@
 Contributing guidelines
 =======================
 
-Contributions are welcome!
+Contributions are always welcomed!
 
 Big changes
 ===========
