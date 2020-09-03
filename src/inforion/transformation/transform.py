@@ -49,10 +49,14 @@ def parallelize_tranformation(
         tabs_cache,
         wildcard_tabs,
     )
-    pool = Pool(n_cores)
-    df = pd.concat(pool.map(func, df_split))
-    pool.close()
-    pool.join()
+
+    if n_cores == 1:
+        df = pd.concat(df_split)
+    else:
+        pool = Pool(n_cores)
+        df = pd.concat(pool.map(func, df_split))
+        pool.close()
+        pool.join()
 
     logger.debug("Transformed data farme:")
     logger.debug(df)
