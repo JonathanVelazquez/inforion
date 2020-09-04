@@ -14,6 +14,7 @@ from inforion.transformation.transform_error import TransformationError
 
 logger = get_logger("transform", True)
 
+
 def parallelize_tranformation(
     mappingfile, mainsheet, stagingdata, outputfile=None, n_cores=4
 ):
@@ -302,6 +303,3 @@ def clean(string):
     if str.endswith("]"):
         str = str[:-1]
     return str
-
-
-
