@@ -41,12 +41,14 @@ def parallelize_tranformation(
 
     # Transforming data in parallel
     if n_cores == 1:
-        df = transform_data(sheet_to_df_map,
-                            mainsheet,
-                            main_cache,
-                            tabs_cache,
-                            wildcard_tabs,
-                            stagingdata)
+        df = transform_data(
+            sheet_to_df_map,
+            mainsheet,
+            main_cache,
+            tabs_cache,
+            wildcard_tabs,
+            stagingdata,
+        )
     else:
         df_split = np.array_split(stagingdata, n_cores)
         func = partial(
