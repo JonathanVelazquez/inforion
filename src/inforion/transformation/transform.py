@@ -5,10 +5,9 @@ import logging
 from functools import partial
 from multiprocessing import Pool
 
+import inforion.transformation.transform_special as ts
 import numpy as np
 import pandas as pd
-
-import inforion.transformation.transform_special as ts
 from inforion.logger.logger import get_logger
 from inforion.transformation.transform_error import TransformationError
 
