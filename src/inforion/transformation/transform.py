@@ -40,19 +40,23 @@ def parallelize_tranformation(
         )
 
     # Transforming data in parallel
-    df_split = np.array_split(stagingdata, n_cores)
-    func = partial(
-        transform_data,
-        sheet_to_df_map,
-        mainsheet,
-        main_cache,
-        tabs_cache,
-        wildcard_tabs,
-    )
-
     if n_cores == 1:
-        df = pd.concat(df_split)
+        df = transform_data(sheet_to_df_map,
+                            mainsheet,
+                            main_cache,
+                            tabs_cache,
+                            wildcard_tabs,
+                            stagingdata)
     else:
+        df_split = np.array_split(stagingdata, n_cores)
+        func = partial(
+            transform_data,
+            sheet_to_df_map,
+            mainsheet,
+            main_cache,
+            tabs_cache,
+            wildcard_tabs,
+        )
         pool = Pool(n_cores)
         df = pd.concat(pool.map(func, df_split))
         pool.close()
