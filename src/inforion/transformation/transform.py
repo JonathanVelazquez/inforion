@@ -5,14 +5,14 @@ import logging
 from functools import partial
 from multiprocessing import Pool
 
+import inforion.transformation.transform_special as ts
 import numpy as np
 import pandas as pd
-
-import inforion.transformation.transform_special as ts
 from inforion.logger.logger import get_logger
 from inforion.transformation.transform_error import TransformationError
 
 logger = get_logger("transform", True)
+
 
 def parallelize_tranformation(
     mappingfile, mainsheet, stagingdata, outputfile=None, n_cores=4
@@ -40,19 +40,29 @@ def parallelize_tranformation(
         )
 
     # Transforming data in parallel
-    df_split = np.array_split(stagingdata, n_cores)
-    func = partial(
-        transform_data,
-        sheet_to_df_map,
-        mainsheet,
-        main_cache,
-        tabs_cache,
-        wildcard_tabs,
-    )
-    pool = Pool(n_cores)
-    df = pd.concat(pool.map(func, df_split))
-    pool.close()
-    pool.join()
+    if n_cores == 1:
+        df = transform_data(
+            sheet_to_df_map,
+            mainsheet,
+            main_cache,
+            tabs_cache,
+            wildcard_tabs,
+            stagingdata,
+        )
+    else:
+        df_split = np.array_split(stagingdata, n_cores)
+        func = partial(
+            transform_data,
+            sheet_to_df_map,
+            mainsheet,
+            main_cache,
+            tabs_cache,
+            wildcard_tabs,
+        )
+        pool = Pool(n_cores)
+        df = pd.concat(pool.map(func, df_split))
+        pool.close()
+        pool.join()
 
     logger.debug("Transformed data farme:")
     logger.debug(df)
@@ -298,6 +308,3 @@ def clean(string):
     if str.endswith("]"):
         str = str[:-1]
     return str
-
-
-
