@@ -1,12 +1,12 @@
 # Import the code to be tested
 import os
 import unittest
+
+import numpy as np
 import pandas as pd
 import pandas.testing as pdt
-import numpy as np
-
-from inforion.transformation.transform import *
 from inforion.helper.filehandling import *
+from inforion.transformation.transform import *
 
 
 class TestTransformationMethods(unittest.TestCase):
