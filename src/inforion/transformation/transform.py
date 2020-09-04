@@ -14,9 +14,11 @@ from inforion.transformation.transform_error import TransformationError
 logger = get_logger("transform", True)
 
 
-def parallelize_tranformation(
-    mappingfile, mainsheet, stagingdata, outputfile=None, n_cores=4
-):
+def parallelize_tranformation(mappingfile,
+                              mainsheet,
+                              stagingdata,
+                              outputfile=None,
+                              n_cores=4):
 
     # Read the file from given location
     xls = pd.ExcelFile(mappingfile)
@@ -36,8 +38,7 @@ def parallelize_tranformation(
     # Checking for special cases. e.g. Artikel-Lageort
     if mainsheet in ts.special_sheets:
         stagingdata = ts.handle_special_pre_transformations(
-            sheet_to_df_map, mainsheet, stagingdata
-        )
+            sheet_to_df_map, mainsheet, stagingdata)
 
     # Transforming data in parallel
     df_split = np.array_split(stagingdata, n_cores)
@@ -104,9 +105,11 @@ def getTabsMappingCache(sheet_to_df_map, mapping_cache):
             key_cols_count = 0  # no of key columns
 
             tab_key = map["FUNC_VAL"].strip()  # tab name for excel tab sheet
-            tab_sub_keys = map["FUNC_ARG"].split("|")  # tab key columns information
+            tab_sub_keys = map["FUNC_ARG"].split(
+                "|")  # tab key columns information
 
-            tab = {}  # tab containing all dictonaries for single excel tab sheet
+            tab = {
+            }  # tab containing all dictonaries for single excel tab sheet
             field_dict = {}  # dictionary for a single field
 
             for sub_val in tab_sub_keys:
@@ -128,12 +131,12 @@ def getTabsMappingCache(sheet_to_df_map, mapping_cache):
                                     if multi_val_key == "":
                                         multi_val_key = str(val[index])
                                     else:
-                                        multi_val_key = (
-                                            multi_val_key + "_" + str(val[index])
-                                        )
+                                        multi_val_key = (multi_val_key + "_" +
+                                                         str(val[index]))
                             field_dict[multi_val_key] = str(val[index_val_col])
                         else:
-                            field_dict[str(val[0])] = str(val[int(index_val_col)])
+                            field_dict[str(val[0])] = str(
+                                val[int(index_val_col)])
                 tab[str(map["API_FIELD"])] = field_dict
                 if tab_key not in mapping_sheets_cache:
                     mapping_sheets_cache[tab_key] = tab
@@ -141,24 +144,22 @@ def getTabsMappingCache(sheet_to_df_map, mapping_cache):
                     mapping_sheets_cache[tab_key].update(tab)
             else:
                 raise TransformationError(
-                    "Tab '{}' mentioned in mapping sheet is not found.".format(tab_key)
-                )
+                    "Tab '{}' mentioned in mapping sheet is not found.".format(
+                        tab_key))
 
     return mapping_sheets_cache
 
 
-def transform_data(
-    _sheet_to_df_map, _mainsheet, sheet_cache, tabs_cache, wildcard_tabs, stagingdata
-):
+def transform_data(_sheet_to_df_map, _mainsheet, sheet_cache, tabs_cache,
+                   wildcard_tabs, stagingdata):
     rows_list = []
 
     for _, tb_row in stagingdata.iterrows():
         row_dict = {}
         for map in sheet_cache:
             if map["SOURCE"]:
-                transform_source_column(
-                    row_dict, map["API_FIELD"], tb_row, map["SOURCE"]
-                )
+                transform_source_column(row_dict, map["API_FIELD"], tb_row,
+                                        map["SOURCE"])
             else:
                 if map["FUNC_TYPE"] == "tbl":
                     tab = tabs_cache[map["FUNC_VAL"].strip()]
@@ -179,9 +180,8 @@ def transform_data(
                         map["FUNC_ARG"],
                     )
                 elif map["FUNC_TYPE"] == "const":
-                    transform_const_column(
-                        row_dict, map["API_FIELD"], tb_row, map["FUNC_VAL"]
-                    )
+                    transform_const_column(row_dict, map["API_FIELD"], tb_row,
+                                           map["FUNC_VAL"])
 
         rows_list.append(row_dict)
 
@@ -197,13 +197,12 @@ def transform_source_column(map_row, map_col, tb_row, source_col):
         map_row[map_col] = str(tb_row[source])
     else:
         raise TransformationError(
-            "Field '{}' mentioned in mapping sheet is not found.".format(source)
-        )
+            "Field '{}' mentioned in mapping sheet is not found.".format(
+                source))
 
 
-def transform_sheet_table_mapping_column(
-    map_row, map_col, tb_row, tab_sheet, tab_sheet_key, wildcard_tabs
-):
+def transform_sheet_table_mapping_column(map_row, map_col, tb_row, tab_sheet,
+                                         tab_sheet_key, wildcard_tabs):
     if tab_sheet_key and not tab_sheet_key is np.nan:
         db_key = ""  # actual key against which we lookup in sheet_tab
 
@@ -219,19 +218,17 @@ def transform_sheet_table_mapping_column(
                         db_key = db_key + "_" + str(tb_row[sub_key])
                 else:
                     raise TransformationError(
-                        "Field '{}' mentioned in mapping sheet is not found.".format(
-                            sub_key
-                        )
-                    )
+                        "Field '{}' mentioned in mapping sheet is not found.".
+                        format(sub_key))
 
         if db_key in tab_sheet[map_col]:
             # assigning the values if key simply matches
             map_row[map_col] = str(tab_sheet[map_col][db_key])
         elif map_col in wildcard_tabs and wildcardcomparison_has_key(
-            tab_sheet[map_col], db_key
-        ):
+                tab_sheet[map_col], db_key):
             # checking if key matches with any wildcard entry in tab_sheet
-            map_row[map_col] = wildcardcomparison_get_value(tab_sheet[map_col], db_key)
+            map_row[map_col] = wildcardcomparison_get_value(
+                tab_sheet[map_col], db_key)
         elif "*" in tab_sheet[map_col]:
             # checking tab_sheet has '*' key, then we assign that values
             map_row[map_col] = str(tab_sheet[map_col]["*"])
@@ -247,9 +244,8 @@ def transform_function_column(map_row, map_col, tb_row, func_name, func_args):
         with decimal.localcontext() as ctx:
             if data_values[2] != "":
                 ctx.prec = int(data_values[2])
-            result = decimal.Decimal(tb_row[clean(data_values[0])]) / decimal.Decimal(
-                clean(data_values[1])
-            )
+            result = decimal.Decimal(tb_row[clean(
+                data_values[0])]) / decimal.Decimal(clean(data_values[1]))
     map_row[map_col] = result
 
 
@@ -266,8 +262,8 @@ def get_wild_card_tabs(tabs_cache):
     for key, tab_dict in tabs_cache.items():
         for key2, tab_dict2 in tab_dict.items():
             keys = list(
-                filter(lambda x: len(x) > 1 and x.endswith("*"), tab_dict2.keys())
-            )
+                filter(lambda x: len(x) > 1 and x.endswith("*"),
+                       tab_dict2.keys()))
             if len(keys) > 0:
                 wildcard_tabs.append(key)
                 break
@@ -275,20 +271,22 @@ def get_wild_card_tabs(tabs_cache):
 
 
 def wildcardcomparison_has_key(tab_dict, db_key):
-    keys = list(filter(lambda x: len(x) > 1 and x.endswith("*"), tab_dict.keys()))
+    keys = list(
+        filter(lambda x: len(x) > 1 and x.endswith("*"), tab_dict.keys()))
     for key in keys:
         skey = key[:-1]
-        sdb_key = db_key[: len(skey)]
+        sdb_key = db_key[:len(skey)]
         if skey == sdb_key:
             return True
     return False
 
 
 def wildcardcomparison_get_value(tab_dict, db_key):
-    keys = list(filter(lambda x: len(x) > 1 and x.endswith("*"), tab_dict.keys()))
+    keys = list(
+        filter(lambda x: len(x) > 1 and x.endswith("*"), tab_dict.keys()))
     for key in keys:
         skey = key[:-1]
-        sdb_key = db_key[: len(skey)]
+        sdb_key = db_key[:len(skey)]
         if skey == sdb_key:
             return tab_dict[key]
     return db_key
