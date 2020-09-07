@@ -30,8 +30,9 @@ class TestTransformationMethods(unittest.TestCase):
         staged_data.rename(columns={field: "No_1"}, inplace=True)
         print(staged_data)
         with self.assertRaises(TransformationError) as context:
-            parallelize_tranformation(self.valid_mappingfile, "Artikel",
-                                      staged_data, None, 1)
+            parallelize_tranformation(
+                self.valid_mappingfile, "Artikel", staged_data, None, 1
+            )
 
         self.assertEqual(
             context.exception.message,
@@ -41,8 +42,9 @@ class TestTransformationMethods(unittest.TestCase):
     def test_validate_tabs(self):
         tab = "STAT"
         with self.assertRaises(TransformationError) as context:
-            parallelize_tranformation(self.invalid_mappingfile, "Artikel",
-                                      self.staging_data, None, 1)
+            parallelize_tranformation(
+                self.invalid_mappingfile, "Artikel", self.staging_data, None, 1
+            )
 
         self.assertEqual(
             context.exception.message,
@@ -50,17 +52,17 @@ class TestTransformationMethods(unittest.TestCase):
         )
 
     def test_validate_transformation(self):
-        df_return = parallelize_tranformation(self.valid_mappingfile,
-                                              "Artikel", self.staging_data,
-                                              None, 1)
+        df_return = parallelize_tranformation(
+            self.valid_mappingfile, "Artikel", self.staging_data, None, 1
+        )
         df_return = df_return.applymap(str)
 
         pdt.assert_frame_equal(self.sample_output, df_return)
 
     def test_validate_wildcard(self):
-        df_return = parallelize_tranformation(self.valid_mappingfile,
-                                              "Artikel-Lagerort",
-                                              self.staging_wc_data, None, 1)
+        df_return = parallelize_tranformation(
+            self.valid_mappingfile, "Artikel-Lagerort", self.staging_wc_data, None, 1
+        )
         df_return = df_return.applymap(str)
 
         pdt.assert_frame_equal(self.sample_wc_output, df_return)
@@ -68,14 +70,12 @@ class TestTransformationMethods(unittest.TestCase):
     def setUp(self):
         self.staging_wc_data = pd.read_excel(self.staging_wc_file)
         self.staging_data = pd.read_excel(self.staging_file, dtype=str)
-        self.sample_output = pd.read_excel(self.sample_otputfile,
-                                           dtype=str).replace(np.nan,
-                                                              "",
-                                                              regex=True)
-        self.sample_wc_output = pd.read_excel(self.sample_wc_file,
-                                              dtype=str).replace(np.nan,
-                                                                 "",
-                                                                 regex=True)
+        self.sample_output = pd.read_excel(self.sample_otputfile, dtype=str).replace(
+            np.nan, "", regex=True
+        )
+        self.sample_wc_output = pd.read_excel(self.sample_wc_file, dtype=str).replace(
+            np.nan, "", regex=True
+        )
 
     def tearDown(self):
         pass
