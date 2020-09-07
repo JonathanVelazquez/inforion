@@ -31,38 +31,12 @@ stages:
           - task: DownloadSecureFile@1
             inputs:
               secureFile: credentials.ionapi
-          - task: DownloadSecureFile@1
-            inputs:
-              secureFile: TestMapping.xlsx
-          - task: DownloadSecureFile@1
-            inputs:
-              secureFile: TestMappingError.xlsx
-          - task: DownloadSecureFile@1
-            inputs:
-              secureFile: SampleOutput.xlsx
-          - task: DownloadSecureFile@1
-            inputs:
-              secureFile: SampleWcOutput.xlsx
-          - task: DownloadSecureFile@1
-            inputs:
-              secureFile: StagingData.xlsx
-          - task: DownloadSecureFile@1
-            inputs:
-              secureFile: StagingWcData.xlsx
 
           - script: |
               move /Y D:\a\_temp\FellowKey.ionapi $(Build.SourcesDirectory)
 
               mkdir $(Build.SourcesDirectory)\credentials
               move /Y D:\a\_temp\credentials.ionapi $(Build.SourcesDirectory)\credentials
-
-              mkdir $(Build.SourcesDirectory)\data
-              move /Y D:\a\_temp\TestMapping.xlsx $(Build.SourcesDirectory)\data
-              move /Y D:\a\_temp\TestMappingError.xlsx $(Build.SourcesDirectory)\data
-              move /Y D:\a\_temp\SampleOutput.xlsx $(Build.SourcesDirectory)\data
-              move /Y D:\a\_temp\SampleWcOutput.xlsx $(Build.SourcesDirectory)\data
-              move /Y D:\a\_temp\StagingData.xlsx $(Build.SourcesDirectory)\data
-              move /Y D:\a\_temp\StagingWcData.xlsx $(Build.SourcesDirectory)\data
 
           - task: UsePythonVersion@0
             inputs:
@@ -114,30 +88,6 @@ stages:
             name: Credentialsionapi
             inputs:
               secureFile: credentials.ionapi
-          - task: DownloadSecureFile@1
-            name: TestMapping
-            inputs:
-              secureFile: TestMapping.xlsx
-          - task: DownloadSecureFile@1
-            name: TestMappingError
-            inputs:
-              secureFile: TestMappingError.xlsx
-          - task: DownloadSecureFile@1
-            name: SampleOutput
-            inputs:
-              secureFile: SampleOutput.xlsx
-          - task: DownloadSecureFile@1
-            name: SampleWcOutput
-            inputs:
-              secureFile: SampleWcOutput.xlsx
-          - task: DownloadSecureFile@1
-            name: StagingData
-            inputs:
-              secureFile: StagingData.xlsx
-          - task: DownloadSecureFile@1
-            name: StagingWcData
-            inputs:
-              secureFile: StagingWcData.xlsx
           - script: |
               echo Installing $(caCertificate.secureFilePath) to the trusted CA directory...
               sudo cp $(FellowKeyionapi.secureFilePath) $(Pipeline.Workspace)
@@ -146,14 +96,6 @@ stages:
               sudo cp $(Credentialsionapi.secureFilePath) $(Pipeline.Workspace)
               mkdir $(Build.SourcesDirectory)/credentials
               sudo cp $(Credentialsionapi.secureFilePath) /home/vsts/work/1/s/credentials/
-
-              mkdir $(Build.SourcesDirectory)/data
-              sudo cp $(TestMapping.secureFilePath) /home/vsts/work/1/s/data/
-              sudo cp $(TestMappingError.secureFilePath) /home/vsts/work/1/s/data/
-              sudo cp $(SampleOutput.secureFilePath) /home/vsts/work/1/s/data/
-              sudo cp $(SampleWcOutput.secureFilePath) /home/vsts/work/1/s/data/
-              sudo cp $(StagingData.secureFilePath) /home/vsts/work/1/s/data/
-              sudo cp $(StagingWcData.secureFilePath) /home/vsts/work/1/s/data/
 
               ls $(Build.SourcesDirectory)
               ls $(Build.SourcesDirectory)/credentials
