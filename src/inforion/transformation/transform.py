@@ -251,11 +251,12 @@ def transform_function_column(map_row, map_col, tb_row, func_name, func_args):
     if func_name.strip().lower() == "div":
         data_values = func_args.split("|")
         with decimal.localcontext() as ctx:
-            if data_values[2] != "":
-                ctx.prec = int(data_values[2])
             result = decimal.Decimal(tb_row[clean(data_values[0])]) / decimal.Decimal(
                 clean(data_values[1])
             )
+            if data_values[2] != "":
+                result = round(result,int(data_values[2]))
+    
     map_row[map_col] = result
 
 
