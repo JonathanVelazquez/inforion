@@ -255,8 +255,8 @@ def transform_function_column(map_row, map_col, tb_row, func_name, func_args):
                 clean(data_values[1])
             )
             if data_values[2] != "":
-                result = round(result,int(data_values[2]))
-    
+                result = round(result, int(data_values[2]))
+
     map_row[map_col] = result
 
 
