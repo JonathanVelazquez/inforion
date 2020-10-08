@@ -72,3 +72,17 @@ def get_v1_payloads_splitquery(filter, sort=None):
 
     res = requests.get(url, headers=headers, params=payload)
     return res
+
+def get_v2_payloads_splitquery(filter, sort=None):
+    """
+    Split a demanding filter (producing more than 10K results) into several smaller filters producing the same result (up to 9500 results per one filter).
+    """
+    url = inforlogin.base_url() + "/IONSERVICES/datalakeapi/v2/payloads/splitquery"
+    headers = inforlogin.header()
+    payload = {"filter": filter}
+
+    if sort is not None:
+        payload["sort"] = sort
+
+    res = requests.get(url, headers=headers, params=payload)
+    return res
