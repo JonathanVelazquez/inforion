@@ -1,8 +1,8 @@
 import requests
+import aiohttp
 from inforion.ionapi.model import inforlogin
 
-
-def get_v1_payloads_list(filter=None, sort=None, page=None, records=None):
+async def get_v1_payloads_list(session, filter=None,  sort=None, page=None, records=None):
     """
     List data object properties using a filter.
     """
@@ -22,19 +22,19 @@ def get_v1_payloads_list(filter=None, sort=None, page=None, records=None):
     if records is not None:
         payload["records"] = records
 
-    res = requests.get(url, headers=headers, params=payload)
-    return res
+    async with session.get(url, headers=headers, params=payload) as resp:
+        return await resp.json()
 
 
-def get_v1_payloads_stream_by_id(dl_id):
+async def get_v1_payloads_stream_by_id(dl_id, session):
     """
     Retrieve payload based on id from datalake.
     """
     url = inforlogin.base_url() + "/IONSERVICES/datalakeapi/v1/payloads/streambyid"
     headers = inforlogin.header()
     payload = {"datalakeId": dl_id}
-    res = requests.get(url, headers=headers, params=payload)
-    return res
+    async with session.get(url, headers=headers, params=payload) as resp:
+        return await resp.text()
 
 
 def delete_v1_purge_id(ids):
@@ -59,7 +59,7 @@ def delete_v1_purge_filter(purge_filter):
     return res
 
 
-def get_v1_payloads_splitquery(filter, sort=None):
+async def get_v1_payloads_splitquery(filter, session, sort=None):
     """
     Split a demanding filter (producing more than 10K results) into several smaller filters producing the same result (up to 9500 results per one filter).
     """
@@ -70,10 +70,10 @@ def get_v1_payloads_splitquery(filter, sort=None):
     if sort is not None:
         payload["sort"] = sort
 
-    res = requests.get(url, headers=headers, params=payload)
-    return res
+    async with session.get(url, headers=headers, params=payload) as resp:
+        return await resp.json()
 
-def get_v2_payloads_splitquery(filter, sort=None):
+async def get_v2_payloads_splitquery(filter, session, sort=None):
     """
     Split a demanding filter (producing more than 10K results) into several smaller filters producing the same result (up to 9500 results per one filter).
     """
@@ -84,5 +84,6 @@ def get_v2_payloads_splitquery(filter, sort=None):
     if sort is not None:
         payload["sort"] = sort
 
-    res = requests.get(url, headers=headers, params=payload)
-    return res
+    async with aiohttp.ClientSession() as session:
+        async with session.get(url, headers=headers, params=payload) as resp:
+            return await resp.json()
