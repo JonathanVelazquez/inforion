@@ -168,6 +168,9 @@ def addSecs(tm, secs):
 
     return expires_date
 
+def check_and_reconnect():
+    if this._GLOBAL_session_expire >= datetime.now():
+        reconnect()
 
 def reconnect():
     start_session = datetime.now()
