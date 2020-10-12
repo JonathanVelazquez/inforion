@@ -18,3 +18,10 @@ setuptools~=49.2.0
 xlrd==1.2.0
 PyYAML==5.3.1
 pyodbc==4.0.30
+aiohttp==3.6.2
+async-timeout==3.0.1
+attrs==20.2.0
+chardet==3.0.4
+idna==2.10
+multidict==4.7.6
+yarl==1.6.0
